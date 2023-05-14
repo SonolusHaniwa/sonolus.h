@@ -1,5 +1,7 @@
-EngineConfiguration*
-EngineData*
+EngineConfiguration
+EngineData
+EngineConfiguration.json
+EngineData.json
 dist
 make
 main

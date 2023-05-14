@@ -18,12 +18,15 @@ string readFile(string path) {
 const string dist = "./dist";
 
 int main() {
-    Json::Value data; json_decode(readFile("./EngineConfiguration"), data);
-    Json::Value configuration; json_decode(readFile("./EngineData"), configuration);
-    EngineData engineData = EngineData(data);
+    Json::Value data; json_decode(readFile("./EngineData.json"), data);
+    Json::Value configuration; json_decode(readFile("./EngineConfiguration.json"), configuration);
+    EngineData engineData; engineData = EngineData(data);
     EngineConfiguration engineConfiguration = EngineConfiguration(configuration);
+
     buffer resData, resConfiguration;
     build(engineConfiguration, engineData, resConfiguration, resData);
     ofstream fout((dist + "/EngineConfiguration"));
     for (int i = 0; i < resConfiguration.size(); i++) fout << resConfiguration.v[i];
+    fout.close(); fout.open((dist + "/EngineData"));
+    for (int i = 0; i < resData.size(); i++) fout << resData.v[i];
 }
