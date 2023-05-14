@@ -7,6 +7,7 @@
 #include"items/FuncNode.h"
 #include"items/EngineConfiguration.h"
 #include"items/EngineData.h"
+
 #include"functions/functions.h"
 #ifndef DISABLE_REDEFINE
 #include"functions/redefine.h"
@@ -15,6 +16,8 @@
 typedef FuncNode var;
 typedef FuncNode let;
 #endif
+
+#include"blocks/Blocks.h"
 
 map<EngineDataNode, int> hashMap;
 
@@ -47,6 +50,5 @@ void build(EngineConfiguration configuration, EngineData data, buffer& configura
         if (!isInitial(e.touch.script)) e.touch = EngineDataScriptCallback(buildScript(e.touch.script, data));
         if (!isInitial(e.updateParallel.script)) e.updateParallel = EngineDataScriptCallback(buildScript(e.updateParallel.script, data));
         if (!isInitial(e.terminate.script)) e.terminate = EngineDataScriptCallback(buildScript(e.terminate.script, data)); 
-    } cerr << json_encode(data.toJsonObject()) << endl;
-    dataBuffer = compress_gzip(json_encode(data.toJsonObject()), 9);
+    } dataBuffer = compress_gzip(json_encode(data.toJsonObject()), 9);
 }

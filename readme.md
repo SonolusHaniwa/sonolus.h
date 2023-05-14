@@ -24,7 +24,7 @@ Todo List:
 - [x] 实现 `EngineData` 和 `EngineConfiguration` 基础结构。
 - [x] 实现 `FuncNode` 的运算符重载功能。
 - [x] 实现 `build` 功能。
-- [ ] 预定义部分 `block` 指针。
+- [ ] 预定义部分 `block` 指针 (7 / 19)。
 - [ ] 以插件形式接入 [sonolus-server-cpp](https://github.com/SonolusHaniwa/sonolus-server-cpp)
 - [ ] 完成英文文档。
 - [ ] 完成 wiki 界面。

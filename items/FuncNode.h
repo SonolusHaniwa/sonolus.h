@@ -11,6 +11,7 @@ class FuncNode {
     vector<FuncNode> args;
 
     FuncNode(){};
+    FuncNode(int value): isValue(true), value(value){};
     FuncNode(double value): isValue(true), value(value){};
     FuncNode(EngineDataFunctionName func, vector<FuncNode> args): isValue(false), func(func), args(args){};
 
