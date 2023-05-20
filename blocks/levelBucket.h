@@ -41,4 +41,4 @@ class LevelBucketPointer: public Pointer<LevelBucketId> {
     }
 };
 
-PointerArray<LevelBucketPointer> LevelBucket;
+PointerArray<LevelBucketPointer, 6> LevelBucket;

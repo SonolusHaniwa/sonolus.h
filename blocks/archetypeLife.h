@@ -21,4 +21,4 @@ class ArchetypeLifePointer: public Pointer<ArchetypeLifeId> {
     }
 };
 
-PointerArray<ArchetypeLifePointer> ArchetypeLife;
+PointerArray<ArchetypeLifePointer, 4> ArchetypeLife;

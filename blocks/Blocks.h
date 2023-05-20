@@ -69,11 +69,12 @@ const int EntitySharedMemoryId = 24;
 const int ArchetypeLifeId = 30;
 const int EngineRomId = 50;
 const int TemporaryMemoryId = 100;
-const int TemporaryDataId = 101;
+const int TemporaryTouchDataId = 101;
 
 template<int identifierId>
 class Pointer {
     public:
+    
     FuncNode offset = 0;
     int size = -1;
 
@@ -88,14 +89,18 @@ class Pointer {
             (i.value >= size || i.value < 0)) throwWarning("");
         return Set(identifierId, Add({i, offset}), value);
     }
+
+    FuncNode set2(FuncNode i, FuncNode value) {
+        return set(i, value);
+    }
 };
 
-template<typename T>
+template<typename T, int blockSize>
 class PointerArray {
     public:
 
-    T operator [] (int offset) {return T(offset);}
-    T operator [] (FuncNode offset) {return T(offset);};
+    T operator [] (int offset) {return T(Multiply({offset, blockSize}));}
+    T operator [] (FuncNode offset) {return T(Multiply({offset, blockSize}));};
 };
 
 #include"archetypeLife.h"
