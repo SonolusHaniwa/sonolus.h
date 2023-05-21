@@ -40,7 +40,7 @@ g++ main.cpp -omain -ljsoncpp -lssl -lcrypto -lz
 - [x] 实现 `FuncNode` 的运算符重载功能。
 - [x] 实现 `build` 功能。
 - [x] 预定义部分 `block` 指针。
-- [ ] 以插件形式接入 [sonolus-server-cpp](https://github.com/SonolusHaniwa/sonolus-server-cpp)
+- [x] 以插件形式接入 [sonolus-server-cpp](https://github.com/SonolusHaniwa/sonolus-server-cpp)
 - [ ] 完成英文文档。
 - [ ] 完成 wiki 界面。
 - [ ] 实现简单的编译报错功能。
