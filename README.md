@@ -47,7 +47,13 @@ g++ main.cpp -omain -ljsoncpp -lssl -lcrypto -lz
 
 ## 更新日志
 
-### v1.0.0-alpha 2023.5.20
+### v1.0.0-alpha for Sonolus 0.7.0 2023.6.17
+
+所有基本结构体已全部完工，正在进行初步测试中。
+
+具体修改参照 https://github.com/Sonolus/wiki-engine-specs/pull/7/files
+
+### v1.0.0-alpha for Sonolus 0.6.5 2023.5.20
 
 🎁 520 特供 💝
 

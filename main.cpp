@@ -18,12 +18,8 @@ string readFile(string path) {
 const string dist = "./dist";
 
 int main() {
-    Json::Value data; json_decode(readFile("./EngineData.json"), data);
-    Json::Value configuration; json_decode(readFile("./EngineConfiguration.json"), configuration);
-    EngineData engineData; engineData.scripts.push_back(EngineDataScript());
-    EngineConfiguration engineConfiguration = EngineConfiguration(configuration);
-    auto &tmp = engineData.scripts[0].initialize;
-    tmp = ArchetypeLife[120].get(1);
+    EngineData engineData;
+    EngineConfiguration engineConfiguration;
 
     buffer resData, resConfiguration;
     build(engineConfiguration, engineData, resConfiguration, resData);

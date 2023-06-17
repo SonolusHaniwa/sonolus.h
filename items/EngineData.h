@@ -2,23 +2,22 @@
 #define ENGINEDATA_H
 
 using namespace std;
-typedef int SkinSprite;
 
-class EngineDataSprite {
+class EngineDataBucketSprite {
     public:
 
-    SkinSprite id;
-    SkinSprite fallbackId = 0;
+    int id;
+    int fallbackId = 0;
     double x;
     double y;
     double w;
     double h;
     double rotation;
 
-    EngineDataSprite(){}
-    EngineDataSprite(SkinSprite id, double x, double y, double w, double h, double rotation, SkinSprite fallbackId = 0):
+    EngineDataBucketSprite(){}
+    EngineDataBucketSprite(int id, double x, double y, double w, double h, double rotation, int fallbackId = 0):
         id(id), x(x), y(y), w(w), h(h), rotation(rotation), fallbackId(fallbackId){}
-    EngineDataSprite(Json::Value arr) {
+    EngineDataBucketSprite(Json::Value arr) {
         id = arr["id"].asInt();
         fallbackId = arr["fallbackId"].asInt();
         x = arr["x"].asDouble();
@@ -44,14 +43,15 @@ class EngineDataSprite {
 class EngineDataBucket{
     public:
 
-    vector<EngineDataSprite> sprites;
+    vector<EngineDataBucketSprite> sprites;
+    string unit = "";
 
     EngineDataBucket(){}
-    EngineDataBucket(Json::Value arr) {
-        for (int i = 0; i < arr["sprites"].size(); i++) sprites.push_back(EngineDataSprite(arr["sprites"][i]));
+    EngineDataBucket(Json::Value arr, string unit = ""): unit(unit) {
+        for (int i = 0; i < arr["sprites"].size(); i++) sprites.push_back(EngineDataBucketSprite(arr["sprites"][i]));
     }
 
-    void append(EngineDataSprite sprite) {
+    void append(EngineDataBucketSprite sprite) {
         sprites.push_back(sprite);
     }
 
@@ -63,49 +63,20 @@ class EngineDataBucket{
     }
 };
 
-class EngineDataArchetype {
+class EngineDataArchetypeCallback {
     public:
 
-    int script;
-    int data_index = 0;
-    vector<int> data_values;
-    bool input = true;
-
-    EngineDataArchetype(){}
-    EngineDataArchetype(int script, int data_index = 0, vector<int> data_values = vector<int>(), bool input = true):
-        script(script), data_index(data_index), data_values(data_values), input(input){}
-    EngineDataArchetype(Json::Value arr) {
-        script = arr["script"].asInt();
-        data_index = arr["data"]["index"].asInt();
-        for (int i = 0; i < arr["data"]["values"].size(); i++) data_values.push_back(arr["data"]["values"][i].asInt());
-        input = arr["input"].asBool();
-    }
-
-    Json::Value toJsonObject() {
-        Json::Value res;
-        res["script"] = script;
-        res["data"]["index"] = data_index;
-        res["data"]["values"].resize(0);
-        for (int i = 0; i < data_values.size(); i++) res["data"]["values"].append(data_values[i]);
-        res["input"] = input;
-        return res;
-    }
-};
-
-class EngineDataScriptCallback {
-    public:
-
-    int index = -1;
-    int order = 0;
+    double index;
+    double order = 0;
     FuncNode script = -1;
 
-    EngineDataScriptCallback(){}
-    EngineDataScriptCallback(int index, int order = 0): index(index), order(order){}
-    EngineDataScriptCallback(Json::Value arr){
+    EngineDataArchetypeCallback(){}
+    EngineDataArchetypeCallback(double index, double order = 0): index(index), order(order){};
+    EngineDataArchetypeCallback(Json::Value arr){
         if (arr.isNull() == true) return;
         index = arr["index"].asInt(), order = arr["order"].asInt();
     }
-    EngineDataScriptCallback(FuncNode script):script(script){}
+    EngineDataArchetypeCallback(FuncNode script):script(script){}
 
     Json::Value toJsonObject() {
         Json::Value res;
@@ -115,50 +86,63 @@ class EngineDataScriptCallback {
     }
 };
 
-class EngineDataScript {
+class EngineDataArchetype {
     public:
 
-    EngineDataScriptCallback preprocess;
-    EngineDataScriptCallback spawnOrder;
-    EngineDataScriptCallback shouldSpawn;
-    EngineDataScriptCallback initialize;
-    EngineDataScriptCallback updateSequential;
-    EngineDataScriptCallback touch;
-    EngineDataScriptCallback updateParallel;
-    EngineDataScriptCallback terminate;
+    string name;
+    bool hasInput;
+    EngineDataArchetypeCallback preprocess;
+    EngineDataArchetypeCallback spawnOrder;
+    EngineDataArchetypeCallback shouldSpawn;
+    EngineDataArchetypeCallback initialize;
+    EngineDataArchetypeCallback updateSequential;
+    EngineDataArchetypeCallback touch;
+    EngineDataArchetypeCallback updateParallel;
+    EngineDataArchetypeCallback terminate;
+    vector<pair<string, double> > data;
 
-    EngineDataScript(EngineDataScriptCallback preprocess = EngineDataScriptCallback(),
-        EngineDataScriptCallback spawnOrder = EngineDataScriptCallback(),
-        EngineDataScriptCallback shouldSpawn = EngineDataScriptCallback(),
-        EngineDataScriptCallback initialize = EngineDataScriptCallback(),
-        EngineDataScriptCallback updateSequential = EngineDataScriptCallback(),
-        EngineDataScriptCallback touch = EngineDataScriptCallback(),
-        EngineDataScriptCallback updateParallel = EngineDataScriptCallback(),
-        EngineDataScriptCallback terminate = EngineDataScriptCallback()):
-        preprocess(preprocess), spawnOrder(spawnOrder), shouldSpawn(shouldSpawn),
-        initialize(initialize), updateSequential(updateSequential), touch(touch),
-        updateParallel(updateParallel), terminate(terminate){}
-    EngineDataScript(Json::Value arr) {
-        preprocess = EngineDataScriptCallback(arr["preprocess"]);
-        spawnOrder = EngineDataScriptCallback(arr["spawnOrder"]);
-        shouldSpawn = EngineDataScriptCallback(arr["shouldSpawn"]);
-        initialize = EngineDataScriptCallback(arr["initialize"]);
-        updateSequential = EngineDataScriptCallback(arr["updateSequential"]);
-        touch = EngineDataScriptCallback(arr["touch"]);
-        updateParallel = EngineDataScriptCallback(arr["updateParallel"]);
-        terminate = EngineDataScriptCallback(arr["terminate"]);
+    EngineDataArchetype(){}
+    EngineDataArchetype(string name, bool hasInput, vector<pair<string, double> > data,
+        EngineDataArchetypeCallback preprocess = EngineDataArchetypeCallback(),
+        EngineDataArchetypeCallback spawnOrder = EngineDataArchetypeCallback(),
+        EngineDataArchetypeCallback shouldSpawn = EngineDataArchetypeCallback(),
+        EngineDataArchetypeCallback initialize = EngineDataArchetypeCallback(),
+        EngineDataArchetypeCallback updateSequential = EngineDataArchetypeCallback(),
+        EngineDataArchetypeCallback touch = EngineDataArchetypeCallback(),
+        EngineDataArchetypeCallback updateParallel = EngineDataArchetypeCallback(),
+        EngineDataArchetypeCallback terminate = EngineDataArchetypeCallback()): 
+        name(name), hasInput(hasInput), data(data), preprocess(preprocess), spawnOrder(spawnOrder), shouldSpawn(shouldSpawn), initialize(initialize), updateSequential(updateSequential), touch(touch), updateParallel(updateParallel), terminate(terminate){};
+    EngineDataArchetype(Json::Value arr) {
+        name = arr["name"].asString();
+        hasInput = arr["hasInput"].asBool();
+        preprocess = EngineDataArchetypeCallback(arr["preprocess"]);
+        spawnOrder = EngineDataArchetypeCallback(arr["spawnOrder"]);
+        shouldSpawn = EngineDataArchetypeCallback(arr["shouldSpawn"]);
+        initialize = EngineDataArchetypeCallback(arr["initialize"]);
+        updateSequential = EngineDataArchetypeCallback(arr["updateSequential"]);
+        touch = EngineDataArchetypeCallback(arr["touch"]);
+        updateParallel = EngineDataArchetypeCallback(arr["updateParallel"]);
+        terminate = EngineDataArchetypeCallback(arr["terminate"]);
+        for (int i = 0; i < arr["data"].size(); i++) data.push_back(make_pair(arr["data"][i]["name"].asString(), arr["data"][i]["index"].asDouble()));
     }
 
     Json::Value toJsonObject() {
-        Json::Value res = Json::objectValue;
-        if (preprocess.index != -1) res["preprocess"] = preprocess.toJsonObject();
-        if (spawnOrder.index != -1) res["spawnOrder"] = spawnOrder.toJsonObject();
-        if (shouldSpawn.index != -1) res["shouldSpawn"] = shouldSpawn.toJsonObject();
-        if (initialize.index != -1) res["initialize"] = initialize.toJsonObject();
-        if (updateSequential.index != -1) res["updateSequential"] = updateSequential.toJsonObject();
-        if (touch.index != -1) res["touch"] = touch.toJsonObject();
-        if (updateParallel.index != -1) res["updateParallel"] = updateParallel.toJsonObject();
-        if (terminate.index != -1) res["terminate"] = terminate.toJsonObject();
+        Json::Value res;
+        res["name"] = name;
+        res["hasInput"] = hasInput;
+        res["preprocess"] = preprocess.toJsonObject();
+        res["spawnOrder"] = spawnOrder.toJsonObject();
+        res["shouldSpawn"] = shouldSpawn.toJsonObject();
+        res["initialize"] = initialize.toJsonObject();
+        res["updateSequential"] = updateSequential.toJsonObject();
+        res["touch"] = touch.toJsonObject();
+        res["updateParallel"] = updateParallel.toJsonObject();
+        res["terminate"] = terminate.toJsonObject();
+        res["data"].resize(0);
+        for (int i = 0; i < data.size(); i++) {
+            res["data"][i]["name"] = data[i].first;
+            res["data"][i]["index"] = data[i].second;
+        }
         return res;
     }
 };
@@ -182,19 +166,19 @@ class EngineDataValueNode {
 class EngineDataFunctionNode {
     public:
 
-    EngineDataFunctionName func;
+    RuntimeFunction func;
     vector<double> args;
 
     EngineDataFunctionNode(){}
-    EngineDataFunctionNode(EngineDataFunctionName func, vector<double> args): func(func), args(args){}
+    EngineDataFunctionNode(RuntimeFunction func, vector<double> args): func(func), args(args){}
     EngineDataFunctionNode(Json::Value arr) {
-        func = (EngineDataFunctionName)find(arr["func"].asString(), EngineDataFunctionNameString, 121);
+        func = (RuntimeFunction)find(arr["func"].asString(), RuntimeFunctionString, 185);
         for (int i = 0; i < arr["args"].size(); i++) args.push_back(arr["args"][i].asDouble());
     }
 
     Json::Value toJsonObject() {
         Json::Value res;
-        res["func"] = EngineDataFunctionNameString[func];
+        res["func"] = RuntimeFunctionString[func];
         res["args"].resize(0);
         for (int i = 0; i < args.size(); i++) res["args"].append(args[i]);
         return res;
@@ -232,28 +216,45 @@ class EngineDataNode {
 class EngineData {
     public:
 
+    vector<pair<string, int> > skin_sprites;
+    vector<pair<string, int> > effect_clips;
+    vector<pair<string, int> > particle_effects;
     vector<EngineDataBucket> buckets;
     vector<EngineDataArchetype> archetypes;
-    vector<EngineDataScript> scripts;
     vector<EngineDataNode> nodes;
 
     EngineData(){}
-    EngineData(vector<EngineDataBucket> buckets, vector<EngineDataArchetype> archetypes,
-        vector<EngineDataScript> scripts, vector<EngineDataNode> nodes): buckets(buckets), archetypes(archetypes), scripts(scripts), nodes(nodes){}
+    EngineData(
+        vector<pair<string, int> > skin_sprites, vector<pair<string, int> > effect_clips, vector<pair<string, int> > particle_effects,
+        vector<EngineDataBucket> buckets, vector<EngineDataArchetype> archetypes, vector<EngineDataNode> nodes): 
+        skin_sprites(skin_sprites), effect_clips(effect_clips), particle_effects(particle_effects), buckets(buckets), archetypes(archetypes), nodes(nodes){}
     EngineData(Json::Value arr) {
+        for (int i = 0; i < arr["skin"]["sprites"].size(); i++) skin_sprites.push_back(make_pair(arr["skin"]["sprites"][i]["name"].asString(), arr["skin"]["sprites"][i]["id"].asInt()));
+        for (int i = 0; i < arr["effect"]["clips"].size(); i++) effect_clips.push_back(make_pair(arr["effect"]["clips"][i]["name"].asString(), arr["effect"]["clips"][i]["id"].asInt()));
+        for (int i = 0; i < arr["particle"]["effects"].size(); i++) particle_effects.push_back(make_pair(arr["particle"]["effects"][i]["name"].asString(), arr["particle"]["effects"][i]["id"].asInt()));
         for (int i = 0; i < arr["buckets"].size(); i++) buckets.push_back(EngineDataBucket(arr["buckets"][i]));
         for (int i = 0; i < arr["archetypes"].size(); i++) archetypes.push_back(EngineDataArchetype(arr["archetypes"][i]));
-        for (int i = 0; i < arr["scripts"].size(); i++) scripts.push_back(EngineDataScript(arr["scripts"][i]));
         for (int i = 0; i < arr["nodes"].size(); i++) nodes.push_back(EngineDataNode(arr["nodes"][i]));
     }
 
     Json::Value toJsonObject() {
         Json::Value res;
-        res["buckets"].resize(0); res["archetypes"].resize(0);
-        res["scripts"].resize(0); res["nodes"].resize(0);
+        res["skin"]["sprites"].resize(0); res["effect"]["clips"].resize(0); res["particle"]["effects"].resize(0);
+        res["buckets"].resize(0); res["archetypes"].resize(0); res["nodes"].resize(0);
+        for (int i = 0; i < skin_sprites.size(); i++) {
+            res["skin"]["sprites"][i]["name"] = skin_sprites[i].first;
+            res["skin"]["sprites"][i]["id"] = skin_sprites[i].second;
+        }
+        for (int i = 0; i < effect_clips.size(); i++) {
+            res["effect"]["clips"][i]["name"] = effect_clips[i].first;
+            res["effect"]["clips"][i]["id"] = effect_clips[i].second;
+        }
+        for (int i = 0; i < particle_effects.size(); i++) {
+            res["particle"]["effects"][i]["name"] = particle_effects[i].first;
+            res["particle"]["effects"][i]["id"] = particle_effects[i].second;
+        }
         for (int i = 0; i < buckets.size(); i++) res["buckets"].append(buckets[i].toJsonObject());
         for (int i = 0; i < archetypes.size(); i++) res["archetypes"].append(archetypes[i].toJsonObject());
-        for (int i = 0; i < scripts.size(); i++) res["scripts"].append(scripts[i].toJsonObject());
         for (int i = 0; i < nodes.size(); i++) res["nodes"].append(nodes[i].toJsonObject());
         return res;
     }

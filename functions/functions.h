@@ -1,344 +1,604 @@
-FuncNode Abs(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Abs, {expr});
+FuncNode Abs(FuncNode value) {
+    return FuncNode(RuntimeFunction_Abs, {value});
 }
 
-FuncNode Add(vector<FuncNode> expr) {
-    return FuncNode(EngineDataFunctionName_Add, expr);
+FuncNode Add(vector<FuncNode> value) {
+    return FuncNode(RuntimeFunction_Add, value);
 }
 
-FuncNode And(vector<FuncNode> expr) {
-    return FuncNode(EngineDataFunctionName_And, expr);
+FuncNode And(vector<FuncNode> value) {
+    return FuncNode(RuntimeFunction_And, value);
 }
 
-FuncNode Arccos(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Arccos, {expr});
+FuncNode Arccos(FuncNode value) {
+    return FuncNode(RuntimeFunction_Arccos, {value});
 }
 
-FuncNode Arcsin(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Arcsin, {expr});
+FuncNode Arcsin(FuncNode value) {
+    return FuncNode(RuntimeFunction_Arcsin, {value});
 }
 
-FuncNode Arctan(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Arctan, {expr});
+FuncNode Arctan(FuncNode value) {
+    return FuncNode(RuntimeFunction_Arctan, {value});
 }
 
 //
 FuncNode Arctan2(FuncNode x, FuncNode y) {
-    return FuncNode(EngineDataFunctionName_Arctan2, {y, x});
+    return FuncNode(RuntimeFunction_Arctan2, {y, x});
 }
 
-FuncNode Ceil(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Ceil, {expr});
+FuncNode BeatToBPM(FuncNode beat) {
+    return FuncNode(RuntimeFunction_BeatToBPM, {beat});
+}
+
+FuncNode BeatToStartingBeat(FuncNode beat) {
+    return FuncNode(RuntimeFunction_BeatToStartingBeat, {beat});
+}
+
+FuncNode BeatToStartingTime(FuncNode beat) {
+    return FuncNode(RuntimeFunction_BeatToStartingTime, {beat});
+}
+
+FuncNode BeatToTime(FuncNode beat) {
+    return FuncNode(RuntimeFunction_BeatToTime, {beat});
+}
+
+FuncNode Block(FuncNode body) {
+    return FuncNode(RuntimeFunction_Block, {body});
+}
+
+FuncNode Break(FuncNode count, FuncNode value) {
+    return FuncNode(RuntimeFunction_Break, {count, value});
+}
+
+FuncNode Ceil(FuncNode value) {
+    return FuncNode(RuntimeFunction_Ceil, {value});
 }
 
 FuncNode Clamp(FuncNode x, FuncNode a, FuncNode b) {
-    return FuncNode(EngineDataFunctionName_Clamp, {x, a, b});
+    return FuncNode(RuntimeFunction_Clamp, {x, a, b});
 }
 
-FuncNode Cos(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Cos, {expr});
+FuncNode Copy(FuncNode srcId, FuncNode srcIndex, FuncNode dstId, FuncNode dstIndex, FuncNode count) {
+    return FuncNode(RuntimeFunction_Copy, {srcId, srcIndex, dstId, dstIndex, count});
+} 
+
+FuncNode Cos(FuncNode value) {
+    return FuncNode(RuntimeFunction_Cos, {value});
 }
 
-FuncNode Cosh(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Cosh, {expr});
+FuncNode Cosh(FuncNode value) {
+    return FuncNode(RuntimeFunction_Cosh, {value});
 }
 
-FuncNode Debuglog(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_DebugLog, {expr});
+FuncNode Debuglog(FuncNode value) {
+    return FuncNode(RuntimeFunction_DebugLog, {value});
+}
+
+FuncNode DecrementPostPointed(FuncNode id, FuncNode index, FuncNode offset) {
+    return FuncNode(RuntimeFunction_DecrementPostPointed, {id, index, offset});
+}
+
+FuncNode DecrementPostShifted(FuncNode id, FuncNode x, FuncNode y, FuncNode s) {
+    return FuncNode(RuntimeFunction_DecrementPostShifted, {id, x, y, s});
+}
+
+FuncNode DecrementPost(FuncNode id, FuncNode index) {
+    return FuncNode(RuntimeFunction_DecrementPost, {id, index});
+}
+
+FuncNode DecrementPrePointed(FuncNode id, FuncNode index, FuncNode offset) {
+    return FuncNode(RuntimeFunction_DecrementPrePointed, {id, index, offset});
+}
+
+FuncNode DecrementPreShifted(FuncNode id, FuncNode x, FuncNode y, FuncNode s) {
+    return FuncNode(RuntimeFunction_DecrementPreShifted, {id, x, y, s});
+}
+
+FuncNode DecrementPre(FuncNode id, FuncNode index) {
+    return FuncNode(RuntimeFunction_DecrementPre, {id, index});
 }
 
 FuncNode DebugPause() {
-    return FuncNode(EngineDataFunctionName_DebugPause, {});
+    return FuncNode(RuntimeFunction_DebugPause, {});
 }
 
-FuncNode Degree(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Degree, {expr});
+FuncNode Degree(FuncNode value) {
+    return FuncNode(RuntimeFunction_Degree, {value});
 }
 
-FuncNode DestroyParticleEffect(FuncNode id) {
-    return FuncNode(EngineDataFunctionName_DestroyParticleEffect, {id});
+FuncNode DestroyParticleEffect(FuncNode particleId) {
+    return FuncNode(RuntimeFunction_DestroyParticleEffect, {particleId});
 }
 
-FuncNode Divide(vector<FuncNode> expr) {
-    return FuncNode(EngineDataFunctionName_Divide, expr);
+FuncNode Divide(vector<FuncNode> value) {
+    return FuncNode(RuntimeFunction_Divide, value);
+}
+
+FuncNode DoWhile(FuncNode body, FuncNode test) {
+    return FuncNode(RuntimeFunction_DoWhile, {body, test});
 }
 
 FuncNode Draw(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a) {
-    return FuncNode(EngineDataFunctionName_Draw, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a});
+    return FuncNode(RuntimeFunction_Draw, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a});
 }
 
-FuncNode DrawCurvedB(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a, FuncNode n, FuncNode cxB, FuncNode cyB) {
-    return FuncNode(EngineDataFunctionName_DrawCurvedB, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a, n, cxB, cyB});
+FuncNode DrawCurvedB(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a, FuncNode n, FuncNode p, FuncNode q) {
+    return FuncNode(RuntimeFunction_DrawCurvedB, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a, n, p, q});
 }
 
-FuncNode DrawCurvedBT(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a, FuncNode n, FuncNode cxB, FuncNode cyB, FuncNode cxT, FuncNode cyT) {
-    return FuncNode(EngineDataFunctionName_DrawCurvedBT, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a, n, cxB, cyB, cxT, cyT});
+FuncNode DrawCurvedBT(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a, FuncNode n, FuncNode p1, FuncNode q1, FuncNode p2, FuncNode q2) {
+    return FuncNode(RuntimeFunction_DrawCurvedBT, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a, n, p1, q1, p2, q2});
 }
 
-FuncNode DrawCurvedL(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a, FuncNode n, FuncNode cxL, FuncNode cyL) {
-    return FuncNode(EngineDataFunctionName_DrawCurvedL, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a, n, cxL, cyL});
+FuncNode DrawCurvedL(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a, FuncNode n, FuncNode p, FuncNode q) {
+    return FuncNode(RuntimeFunction_DrawCurvedL, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a, n, p, q});
 }
 
-FuncNode DrawCurvedLR(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a, FuncNode n, FuncNode cxL, FuncNode cyL, FuncNode cxR, FuncNode cyR) {
-    return FuncNode(EngineDataFunctionName_DrawCurvedLR, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a, n, cxL, cyL, cxR, cyR});
+FuncNode DrawCurvedLR(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a, FuncNode n, FuncNode p1, FuncNode q1, FuncNode p2, FuncNode q2) {
+    return FuncNode(RuntimeFunction_DrawCurvedLR, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a, n, p1, q1, p2, q2});
 }
 
-FuncNode DrawCurvedR(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a, FuncNode n, FuncNode cxR, FuncNode cyR) {
-    return FuncNode(EngineDataFunctionName_DrawCurvedR, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a, n, cxR, cyR});
+FuncNode DrawCurvedR(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a, FuncNode n, FuncNode p, FuncNode q) {
+    return FuncNode(RuntimeFunction_DrawCurvedR, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a, n, p, q});
 }
 
-FuncNode DrawCurvedT(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a, FuncNode n, FuncNode cxT, FuncNode cyT) {
-    return FuncNode(EngineDataFunctionName_DrawCurvedT, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a, n, cxT, cyT});
+FuncNode DrawCurvedT(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode z, FuncNode a, FuncNode n, FuncNode p, FuncNode q) {
+    return FuncNode(RuntimeFunction_DrawCurvedT, {id, x1, y1, x2, y2, x3, y3, x4, y4, z, a, n, p, q});
 }
 
-FuncNode Ease(FuncNode x, EngineDataFunctionName easeType) {
-    return FuncNode(easeType, {x});
+FuncNode Ease(FuncNode value, RuntimeFunction easeType) {
+    return FuncNode(easeType, {value});
 }
 
-FuncNode Equal(FuncNode a, FuncNode b) {
-    return FuncNode(EngineDataFunctionName_Equal, {a, b});
+FuncNode Equal(FuncNode lhs, FuncNode rhs) {
+    return FuncNode(RuntimeFunction_Equal, {lhs, rhs});
 }
 
-FuncNode Execute(vector<FuncNode> expr) {
-    return FuncNode(EngineDataFunctionName_Execute, expr);
+FuncNode Execute(vector<FuncNode> value) {
+    return FuncNode(RuntimeFunction_Execute, value);
 }
 
-FuncNode Floor(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Floor, {expr});
+FuncNode Execute0(vector<FuncNode> value) {
+    return FuncNode(RuntimeFunction_Execute0, value);
 }
 
-FuncNode Frac(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Frac, {expr});
+FuncNode Floor(FuncNode value) {
+    return FuncNode(RuntimeFunction_Floor, {value});
 }
 
-FuncNode Get(FuncNode id, FuncNode i) {
-    return FuncNode(EngineDataFunctionName_Get, {id, i});
+FuncNode Frac(FuncNode value) {
+    return FuncNode(RuntimeFunction_Frac, {value});
 }
 
-FuncNode GetShifted(FuncNode id, FuncNode i, FuncNode d) {
-    return FuncNode(EngineDataFunctionName_GetShifted, {id, i, d});
+FuncNode Get(FuncNode id, FuncNode index) {
+    return FuncNode(RuntimeFunction_Get, {id, index});
 }
 
-FuncNode Greater(FuncNode a, FuncNode b) {
-    return FuncNode(EngineDataFunctionName_Greater, {a, b});
+FuncNode GetPointed(FuncNode id, FuncNode index, FuncNode offset) {
+    return FuncNode(RuntimeFunction_GetPointed, {id, index, offset});
 }
 
-FuncNode GreaterOr(FuncNode a, FuncNode b) {
-    return FuncNode(EngineDataFunctionName_GreaterOr, {a, b});
+FuncNode GetShifted(FuncNode id, FuncNode x, FuncNode y, FuncNode s) {
+    return FuncNode(RuntimeFunction_GetShifted, {id, x, y, s});
+}
+
+FuncNode Greater(FuncNode lhs, FuncNode rhs) {
+    return FuncNode(RuntimeFunction_Greater, {lhs, rhs});
+}
+
+FuncNode GreaterOr(FuncNode lhs, FuncNode rhs) {
+    return FuncNode(RuntimeFunction_GreaterOr, {lhs, rhs});
 }
 
 FuncNode HasEffectClip(FuncNode id) {
-    return FuncNode(EngineDataFunctionName_HasEffectClip, {id});
+    return FuncNode(RuntimeFunction_HasEffectClip, {id});
 }
 
 FuncNode HasParticleEffect(FuncNode id) {
-    return FuncNode(EngineDataFunctionName_HasParticleEffect, {id});
+    return FuncNode(RuntimeFunction_HasParticleEffect, {id});
 }
 
 FuncNode HasSkinSprite(FuncNode id) {
-    return FuncNode(EngineDataFunctionName_HasSkinSprite, {id});
+    return FuncNode(RuntimeFunction_HasSkinSprite, {id});
 }
 
-FuncNode If(FuncNode cond, FuncNode trueExpr, FuncNode falseExpr) {
-    return FuncNode(EngineDataFunctionName_If, {cond, trueExpr, falseExpr});
+FuncNode If(FuncNode test, FuncNode consequent, FuncNode alternate) {
+    return FuncNode(RuntimeFunction_If, {test, consequent, alternate});
 }
 
+FuncNode IncrementPostPointed(FuncNode id, FuncNode index, FuncNode offset) {
+    return FuncNode(RuntimeFunction_IncrementPostPointed, {id, index, offset});
+}
+
+FuncNode IncrementPostShifted(FuncNode id, FuncNode x, FuncNode y, FuncNode s) {
+    return FuncNode(RuntimeFunction_IncrementPostShifted, {id, x, y, s});
+}
+
+FuncNode IncrementPost(FuncNode id, FuncNode index) {
+    return FuncNode(RuntimeFunction_IncrementPost, {id, index});
+}
+
+FuncNode IncrementPrePointed(FuncNode id, FuncNode index, FuncNode offset) {
+    return FuncNode(RuntimeFunction_IncrementPrePointed, {id, index, offset});
+}
+
+FuncNode IncrementPreShifted(FuncNode id, FuncNode x, FuncNode y, FuncNode s) {
+    return FuncNode(RuntimeFunction_IncrementPreShifted, {id, x, y, s});
+}
+
+FuncNode IncrementPre(FuncNode id, FuncNode index) {
+    return FuncNode(RuntimeFunction_IncrementPre, {id, index});
+}
+
+/*
 FuncNode IsDebug() {
-    return FuncNode(EngineDataFunctionName_IsDebug, {});
+    return FuncNode(RuntimeFunction_IsDebug, {});
+}
+*/
+
+FuncNode Judge(FuncNode target, FuncNode source, FuncNode minPerfect, FuncNode maxPerfect, FuncNode minGreat, FuncNode maxGreat, FuncNode minGood, FuncNode maxGood) {
+    return FuncNode(RuntimeFunction_Judge, {target, source, minPerfect, maxPerfect, minGreat, maxGreat, minGood, maxGood});
 }
 
-FuncNode Judge(FuncNode target, FuncNode source, FuncNode min_1, FuncNode max_1, FuncNode min_2, FuncNode max_2, FuncNode min_3, FuncNode max_3) {
-    return FuncNode(EngineDataFunctionName_Judge, {target, source, min_1, max_1, min_2, max_2, min_3, max_3});
-}
-
-FuncNode JudgeSimple(FuncNode target, FuncNode source, FuncNode max_1, FuncNode max_2, FuncNode max_3) {
-    return FuncNode(EngineDataFunctionName_JudgeSimple, {target, source, max_1, max_2, max_3});
+FuncNode JudgeSimple(FuncNode target, FuncNode source, FuncNode maxPerfect, FuncNode maxGreat, FuncNode maxGood) {
+    return FuncNode(RuntimeFunction_JudgeSimple, {target, source, maxPerfect, maxGreat, maxGood});
 }
 
 FuncNode JumpLoop(vector<FuncNode> branch) {
-    return FuncNode(EngineDataFunctionName_JumpLoop, branch);
+    return FuncNode(RuntimeFunction_JumpLoop, branch);
 }
 
-FuncNode Lerp(FuncNode a, FuncNode b, FuncNode x) {
-    return FuncNode(EngineDataFunctionName_Lerp, {a, b, x});
+FuncNode Lerp(FuncNode x, FuncNode y, FuncNode s) {
+    return FuncNode(RuntimeFunction_Lerp, {x, y, s});
 }
 
-FuncNode LerpClamped(FuncNode a, FuncNode b, FuncNode x) {
-    return FuncNode(EngineDataFunctionName_LerpClamped, {a, b, x});
+FuncNode LerpClamped(FuncNode x, FuncNode y, FuncNode s) {
+    return FuncNode(RuntimeFunction_LerpClamped, {x, y, s});
 }
 
-FuncNode Less(FuncNode a, FuncNode b) {
-    return FuncNode(EngineDataFunctionName_Less, {a, b});
+FuncNode Less(FuncNode lhs, FuncNode rhs) {
+    return FuncNode(RuntimeFunction_Less, {lhs, rhs});
 }
 
-FuncNode LessOr(FuncNode a, FuncNode b) {
-    return FuncNode(EngineDataFunctionName_LessOr, {a, b});
+FuncNode LessOr(FuncNode lhs, FuncNode rhs) {
+    return FuncNode(RuntimeFunction_LessOr, {lhs, rhs});
 }
 
-FuncNode Log(vector<FuncNode> expr) {
-    return FuncNode(EngineDataFunctionName_Log, expr);
+FuncNode Log(vector<FuncNode> value) {
+    return FuncNode(RuntimeFunction_Log, value);
 }
 
-FuncNode Max(FuncNode a, FuncNode b) {
-    return FuncNode(EngineDataFunctionName_Max, {a, b});
+FuncNode Max(FuncNode x, FuncNode y) {
+    return FuncNode(RuntimeFunction_Max, {x, y});
 }
 
-FuncNode Min(FuncNode a, FuncNode b) {
-    return FuncNode(EngineDataFunctionName_Min, {a, b});
+FuncNode Min(FuncNode x, FuncNode y) {
+    return FuncNode(RuntimeFunction_Min, {x, y});
 }
 
-FuncNode Mod(vector<FuncNode> expr) {
-    return FuncNode(EngineDataFunctionName_Mod, expr);
+FuncNode Mod(vector<FuncNode> value) {
+    return FuncNode(RuntimeFunction_Mod, value);
 }
 
-FuncNode MoveParticleEffect(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4) {
-    return FuncNode(EngineDataFunctionName_MoveParticleEffect, {id, x1, y1, x2, y2, x3, y3, x4, y4});
+FuncNode MoveParticleEffect(FuncNode particleId, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4) {
+    return FuncNode(RuntimeFunction_MoveParticleEffect, {particleId, x1, y1, x2, y2, x3, y3, x4, y4});
 }
 
-FuncNode Multiply(vector<FuncNode> expr) {
-    return FuncNode(EngineDataFunctionName_Multiply, expr);
+FuncNode Multiply(vector<FuncNode> value) {
+    return FuncNode(RuntimeFunction_Multiply, value);
 }
 
-FuncNode Not(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Not, {expr});
+FuncNode Negate(FuncNode value) {
+    return FuncNode(RuntimeFunction_Negate, {value});
 }
 
-FuncNode NotEqual(FuncNode a, FuncNode b) {
-    return FuncNode(EngineDataFunctionName_NotEqual, {a, b});
+FuncNode Not(FuncNode value) {
+    return FuncNode(RuntimeFunction_Not, {value});
 }
 
-FuncNode Or(vector<FuncNode> expr) {
-    return FuncNode(EngineDataFunctionName_Or, expr);
+FuncNode NotEqual(FuncNode lhs, FuncNode rhs) {
+    return FuncNode(RuntimeFunction_NotEqual, {lhs, rhs});
 }
 
-FuncNode Play(FuncNode id, FuncNode dist) {
-    return FuncNode(EngineDataFunctionName_Play, {id, dist});
+FuncNode Or(vector<FuncNode> value) {
+    return FuncNode(RuntimeFunction_Or, value);
+}
+
+FuncNode Play(FuncNode id, FuncNode distance) {
+    return FuncNode(RuntimeFunction_Play, {id, distance});
 }
 
 FuncNode PlayLooped(FuncNode id) {
-    return FuncNode(EngineDataFunctionName_PlayLooped, {id});
+    return FuncNode(RuntimeFunction_PlayLooped, {id});
 }
 
-FuncNode PlayLoopedScheduled(FuncNode id, FuncNode t) {
-    return FuncNode(EngineDataFunctionName_PlayLoopedScheduled, {id, t});
+FuncNode PlayLoopedScheduled(FuncNode id, FuncNode startTime) {
+    return FuncNode(RuntimeFunction_PlayLoopedScheduled, {id, startTime});
 }
 
 //
-FuncNode PlayScheduled(FuncNode id, FuncNode dist, FuncNode t) {
-    return FuncNode(EngineDataFunctionName_PlayScheduled, {id, t, dist});
+FuncNode PlayScheduled(FuncNode id, FuncNode distance, FuncNode time) {
+    return FuncNode(RuntimeFunction_PlayScheduled, {id, time, distance});
 }
 
-FuncNode Power(vector<FuncNode> expr) {
-    return FuncNode(EngineDataFunctionName_Power, expr);
+FuncNode Power(vector<FuncNode> value) {
+    return FuncNode(RuntimeFunction_Power, value);
 }
 
-FuncNode Radian(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Radian, {expr});
+FuncNode Radian(FuncNode value) {
+    return FuncNode(RuntimeFunction_Radian, {value});
 }
 
-FuncNode Random(FuncNode a, FuncNode b, FuncNode x) {
-    return FuncNode(EngineDataFunctionName_Random, {a, b, x});
+FuncNode Random(FuncNode min, FuncNode max) {
+    return FuncNode(RuntimeFunction_Random, {min, max});
 }
 
-FuncNode RandomInteger(FuncNode a, FuncNode b, FuncNode x) {
-    return FuncNode(EngineDataFunctionName_RandomInteger, {a, b, x});
+FuncNode RandomInteger(FuncNode min, FuncNode max) {
+    return FuncNode(RuntimeFunction_RandomInteger, {min, max});
 }
 
-FuncNode Remap(FuncNode a, FuncNode b, FuncNode c, FuncNode d, FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Remap, {a, b, c, d, expr});
+FuncNode Rem(vector<FuncNode> value) {
+    return FuncNode(RuntimeFunction_Rem, value);
 }
 
-FuncNode Round(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Round, {expr});
+FuncNode Remap(FuncNode a, FuncNode b, FuncNode c, FuncNode d, FuncNode value) {
+    return FuncNode(RuntimeFunction_Remap, {a, b, c, d, value});
 }
 
-FuncNode Set(FuncNode id, FuncNode i, FuncNode value) {
-    return FuncNode(EngineDataFunctionName_Set, {id, i, value});
+FuncNode Round(FuncNode value) {
+    return FuncNode(RuntimeFunction_Round, {value});
 }
 
-FuncNode SetShifted(FuncNode id, FuncNode i, FuncNode d, FuncNode value) {
-    return FuncNode(EngineDataFunctionName_SetShifted, {id, i, d, value});
+FuncNode Set(FuncNode id, FuncNode index, FuncNode value) {
+    return FuncNode(RuntimeFunction_Set, {id, index, value});
 }
 
-FuncNode Sign(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Sign, {expr});
+FuncNode SetShifted(FuncNode id, FuncNode x, FuncNode y, FuncNode s, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetShifted, {id, x, y, s, value});
 }
 
-FuncNode Sin(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Sin, {expr});
+FuncNode SetAddPointed(FuncNode id, FuncNode index, FuncNode offset, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetAddPointed, {id, index, offset, value});
 }
 
-FuncNode Sinh(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Sinh, {expr});
+FuncNode SetAddShifted(FuncNode id, FuncNode x, FuncNode y, FuncNode s, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetAddShifted, {id, x, y, s, value});
 }
 
+FuncNode SetAdd(FuncNode id, FuncNode index, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetAdd, {id, index, value});
+}
+
+FuncNode SetDividePointed(FuncNode id, FuncNode index, FuncNode offset, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetDividePointed, {id, index, offset, value});
+}
+
+FuncNode SetDivideShifted(FuncNode id, FuncNode x, FuncNode y, FuncNode s, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetDivideShifted, {id, x, y, s, value});
+}
+
+FuncNode SetDivide(FuncNode id, FuncNode index, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetDivide, {id, index, value});
+}
+
+FuncNode SetModPointed(FuncNode id, FuncNode index, FuncNode offset, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetModPointed, {id, index, offset, value});
+}
+
+FuncNode SetModShifted(FuncNode id, FuncNode x, FuncNode y, FuncNode s, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetModShifted, {id, x, y, s, value});
+}
+
+FuncNode SetMod(FuncNode id, FuncNode index, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetMod, {id, index, value});
+}
+
+FuncNode SetMultiplyPointed(FuncNode id, FuncNode index, FuncNode offset, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetMultiplyPointed, {id, index, offset, value});
+}
+
+FuncNode SetMultiplyShifted(FuncNode id, FuncNode x, FuncNode y, FuncNode s, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetMultiplyShifted, {id, x, y, s, value});
+}
+
+FuncNode SetMultiply(FuncNode id, FuncNode index, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetMultiply, {id, index, value});
+}
+
+FuncNode SetPointed(FuncNode id, FuncNode index, FuncNode offset, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetPointed, {id, index, offset, value});
+}
+
+FuncNode SetPowerPointed(FuncNode id, FuncNode index, FuncNode offset, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetPowerPointed, {id, index, offset, value});
+}
+
+FuncNode SetPowerShifted(FuncNode id, FuncNode x, FuncNode y, FuncNode s, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetPowerShifted, {id, x, y, s, value});
+}
+
+FuncNode SetPower(FuncNode id, FuncNode index, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetPower, {id, index, value});
+}
+
+FuncNode SetRemPointed(FuncNode id, FuncNode index, FuncNode offset, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetRemPointed, {id, index, offset, value});
+}
+
+FuncNode SetRemShifted(FuncNode id, FuncNode x, FuncNode y, FuncNode s, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetRemShifted, {id, x, y, s, value});
+}
+
+FuncNode SetRem(FuncNode id, FuncNode index, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetRem, {id, index, value});
+}
+
+FuncNode SetSubtractPointed(FuncNode id, FuncNode index, FuncNode offset, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetSubtractPointed, {id, index, offset, value});
+}
+
+FuncNode SetSubtractShifted(FuncNode id, FuncNode x, FuncNode y, FuncNode s, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetSubtractShifted, {id, x, y, s, value});
+}
+
+FuncNode SetSubtract(FuncNode id, FuncNode index, FuncNode value) {
+    return FuncNode(RuntimeFunction_SetSubtract, {id, index, value});
+}
+
+FuncNode Sign(FuncNode value) {
+    return FuncNode(RuntimeFunction_Sign, {value});
+}
+
+FuncNode Sin(FuncNode value) {
+    return FuncNode(RuntimeFunction_Sin, {value});
+}
+
+FuncNode Sinh(FuncNode value) {
+    return FuncNode(RuntimeFunction_Sinh, {value});
+}
+
+/*
 FuncNode Smoothstep(FuncNode a, FuncNode b, FuncNode x) {
-    return FuncNode(EngineDataFunctionName_Smoothstep, {a, b, x});
+    return FuncNode(RuntimeFunction_Smoothstep, {a, b, x});
 }
+*/
 
 FuncNode Spawn(FuncNode id, FuncNode data) {
-    return FuncNode(EngineDataFunctionName_Spawn, {id, data});
+    return FuncNode(RuntimeFunction_Spawn, {id, data});
 }
 
-FuncNode SpawnParticleEffect(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode t, FuncNode loop) {
-    return FuncNode(EngineDataFunctionName_SpawnParticleEffect, {id, x1, y1, x2, y2, x3, y3, x4, y4, t, loop});
+FuncNode SpawnParticleEffect(FuncNode id, FuncNode x1, FuncNode y1, FuncNode x2, FuncNode y2, FuncNode x3, FuncNode y3, FuncNode x4, FuncNode y4, FuncNode duration, FuncNode isLooped) {
+    return FuncNode(RuntimeFunction_SpawnParticleEffect, {id, x1, y1, x2, y2, x3, y3, x4, y4, duration, isLooped});
 }
 
-FuncNode StopLooped(FuncNode id) {
-    return FuncNode(EngineDataFunctionName_StopLooped, {id});
+FuncNode StackEnter(FuncNode size) {
+    return FuncNode(RuntimeFunction_StackEnter, {size});
 }
 
-FuncNode StopLoopedScheduled(FuncNode id, FuncNode t) {
-    return FuncNode(EngineDataFunctionName_StopLoopedScheduled, {id, t});
+FuncNode StackGetFramePointer() {
+    return FuncNode(RuntimeFunction_StackGetFramePointer, {});
 }
 
-FuncNode Subtract(vector<FuncNode> expr) {
-    return FuncNode(EngineDataFunctionName_Subtract, expr);
+FuncNode StackGetFrame(FuncNode offset) {
+    return FuncNode(RuntimeFunction_StackGetFrame, {offset});
 }
 
-FuncNode Switch(FuncNode cond, vector<pair<FuncNode, FuncNode> > expr) {
-    vector<FuncNode> args; args.push_back(cond);
-    for (int i = 0 ; i < expr.size(); i++) args.push_back(expr[i].first), args.push_back(expr[i].second);
-    return FuncNode(EngineDataFunctionName_Switch, args);
+FuncNode StackGetPointer() {
+    return FuncNode(RuntimeFunction_StackGetPointer, {});
 }
 
-FuncNode SwitchWithDefault(FuncNode cond, vector<pair<FuncNode, FuncNode> > expr, FuncNode expr_def) {
-    vector<FuncNode> args; args.push_back(cond);
-    for (int i = 0 ; i < expr.size(); i++) args.push_back(expr[i].first), args.push_back(expr[i].second);
-    args.push_back(expr_def);
-    return FuncNode(EngineDataFunctionName_SwitchWithDefault, args);
+FuncNode StackGet(FuncNode offset) {
+    return FuncNode(RuntimeFunction_StackGet, {offset});
 }
 
-FuncNode SwitchInteger(FuncNode cond, vector<FuncNode> expr) {
-    expr.insert(expr.begin(), cond);
-    return FuncNode(EngineDataFunctionName_SwitchInteger, expr);
+FuncNode StackGrow(FuncNode size) {
+    return FuncNode(RuntimeFunction_StackGrow, {size});
 }
 
-FuncNode SwitchIntegerWithDefault(FuncNode cond, vector<FuncNode> expr, FuncNode expr_def) {
-    expr.insert(expr.begin(), cond); expr.push_back(expr_def);
-    return FuncNode(EngineDataFunctionName_SwitchIntegerWithDefault, expr);
+FuncNode StackInit() {
+    return FuncNode(RuntimeFunction_StackInit, {});
 }
 
-FuncNode Tan(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Tan, {expr});
+FuncNode StackLeave() {
+    return FuncNode(RuntimeFunction_StackLeave, {});
 }
 
-FuncNode Tanh(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Tanh, {expr});
+FuncNode StackPop() {
+    return FuncNode(RuntimeFunction_StackPop, {});
 }
 
-FuncNode Trunc(FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_Trunc, {expr});
+FuncNode StackPush(FuncNode value) {
+    return FuncNode(RuntimeFunction_StackPush, {value});
+}
+
+FuncNode StackSetFramePointer(FuncNode value) {
+    return FuncNode(RuntimeFunction_StackSetFramePointer, {value});
+}
+
+FuncNode StackSetFrame(FuncNode offset, FuncNode index) {
+    return FuncNode(RuntimeFunction_StackSetFrame, {offset, index});
+}
+
+FuncNode StackSetPointer(FuncNode value) {
+    return FuncNode(RuntimeFunction_StackSetPointer, {value});
+}
+
+FuncNode StackSet(FuncNode offset, FuncNode value) {
+    return FuncNode(RuntimeFunction_StackSet, {offset, value});
+}
+
+FuncNode StopLooped(FuncNode loopId) {
+    return FuncNode(RuntimeFunction_StopLooped, {loopId});
+}
+
+FuncNode StopLoopedScheduled(FuncNode loopId, FuncNode endTime) {
+    return FuncNode(RuntimeFunction_StopLoopedScheduled, {loopId, endTime});
+}
+
+FuncNode Subtract(vector<FuncNode> value) {
+    return FuncNode(RuntimeFunction_Subtract, value);
+}
+
+FuncNode Switch(FuncNode discriminant, vector<pair<FuncNode, FuncNode> > consequent) {
+    vector<FuncNode> args; args.push_back(discriminant);
+    for (int i = 0 ; i < consequent.size(); i++) args.push_back(consequent[i].first), args.push_back(consequent[i].second);
+    return FuncNode(RuntimeFunction_Switch, args);
+}
+
+FuncNode SwitchWithDefault(FuncNode discriminant, vector<pair<FuncNode, FuncNode> > consequent, FuncNode consequent_def) {
+    vector<FuncNode> args; args.push_back(discriminant);
+    for (int i = 0 ; i < consequent.size(); i++) args.push_back(consequent[i].first), args.push_back(consequent[i].second);
+    args.push_back(consequent_def);
+    return FuncNode(RuntimeFunction_SwitchWithDefault, args);
+}
+
+FuncNode SwitchInteger(FuncNode discriminant, vector<FuncNode> consequent) {
+    consequent.insert(consequent.begin(), discriminant);
+    return FuncNode(RuntimeFunction_SwitchInteger, consequent);
+}
+
+FuncNode SwitchIntegerWithDefault(FuncNode discriminant, vector<FuncNode> consequent, FuncNode consequent_def) {
+    consequent.insert(consequent.begin(), discriminant); consequent.push_back(consequent_def);
+    return FuncNode(RuntimeFunction_SwitchIntegerWithDefault, consequent);
+}
+
+FuncNode Tan(FuncNode value) {
+    return FuncNode(RuntimeFunction_Tan, {value});
+}
+
+FuncNode Tanh(FuncNode value) {
+    return FuncNode(RuntimeFunction_Tanh, {value});
+}
+
+FuncNode TimeToScaledTime(FuncNode time) {
+    return FuncNode(RuntimeFunction_TimeToScaledTime, {time});
+}
+
+FuncNode TimeToStartingScaledTime(FuncNode time) {
+    return FuncNode(RuntimeFunction_TimeToStartingScaledTime, {time});
+}
+
+FuncNode TimeToStartingTime(FuncNode time) {
+    return FuncNode(RuntimeFunction_TimeToStartingTime, {time});
+}
+
+FuncNode TimeToTimeScale(FuncNode time) {
+    return FuncNode(RuntimeFunction_TimeToTimeScale, {time});
+}
+
+FuncNode Trunc(FuncNode value) {
+    return FuncNode(RuntimeFunction_Trunc, {value});
 }
 
 FuncNode Unlerp(FuncNode a, FuncNode b, FuncNode x) {
-    return FuncNode(EngineDataFunctionName_Unlerp, {a, b, x});
+    return FuncNode(RuntimeFunction_Unlerp, {a, b, x});
 }
 
 FuncNode UnlerpClamped(FuncNode a, FuncNode b, FuncNode x) {
-    return FuncNode(EngineDataFunctionName_UnlerpClamped, {a, b, x});
+    return FuncNode(RuntimeFunction_UnlerpClamped, {a, b, x});
 }
 
-FuncNode While(FuncNode cond, FuncNode expr) {
-    return FuncNode(EngineDataFunctionName_While, {cond, expr});
+FuncNode While(FuncNode test, FuncNode body) {
+    return FuncNode(RuntimeFunction_While, {test, body});
 }

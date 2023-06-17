@@ -40,15 +40,16 @@ bool isInitial(FuncNode a) {
 void build(EngineConfiguration configuration, EngineData data, buffer& configurationBuffer, buffer& dataBuffer) {
     configurationBuffer = compress_gzip(json_encode(configuration.toJsonObject()), 9);
     hashMap.clear();
-    for (int i = 0; i < data.scripts.size(); i++) {
-        auto &e = data.scripts[i];
-        if (!isInitial(e.initialize.script)) e.initialize = EngineDataScriptCallback(buildScript(e.initialize.script, data));
-        if (!isInitial(e.spawnOrder.script)) e.spawnOrder = EngineDataScriptCallback(buildScript(e.spawnOrder.script, data));
-        if (!isInitial(e.shouldSpawn.script)) e.shouldSpawn = EngineDataScriptCallback(buildScript(e.shouldSpawn.script, data));
-        if (!isInitial(e.preprocess.script)) e.preprocess = EngineDataScriptCallback(buildScript(e.preprocess.script, data));
-        if (!isInitial(e.updateSequential.script)) e.updateSequential = EngineDataScriptCallback(buildScript(e.updateSequential.script, data));
-        if (!isInitial(e.touch.script)) e.touch = EngineDataScriptCallback(buildScript(e.touch.script, data));
-        if (!isInitial(e.updateParallel.script)) e.updateParallel = EngineDataScriptCallback(buildScript(e.updateParallel.script, data));
-        if (!isInitial(e.terminate.script)) e.terminate = EngineDataScriptCallback(buildScript(e.terminate.script, data)); 
-    } dataBuffer = compress_gzip(json_encode(data.toJsonObject()), 9);
+    for (int i = 0; i < data.archetypes.size(); i++) {
+        auto &e = data.archetypes[i];
+        if (!isInitial(e.initialize.script)) e.initialize = EngineDataArchetypeCallback(buildScript(e.initialize.script, data));
+        if (!isInitial(e.spawnOrder.script)) e.spawnOrder = EngineDataArchetypeCallback(buildScript(e.spawnOrder.script, data));
+        if (!isInitial(e.shouldSpawn.script)) e.shouldSpawn = EngineDataArchetypeCallback(buildScript(e.shouldSpawn.script, data));
+        if (!isInitial(e.preprocess.script)) e.preprocess = EngineDataArchetypeCallback(buildScript(e.preprocess.script, data));
+        if (!isInitial(e.updateSequential.script)) e.updateSequential = EngineDataArchetypeCallback(buildScript(e.updateSequential.script, data));
+        if (!isInitial(e.touch.script)) e.touch = EngineDataArchetypeCallback(buildScript(e.touch.script, data));
+        if (!isInitial(e.updateParallel.script)) e.updateParallel = EngineDataArchetypeCallback(buildScript(e.updateParallel.script, data));
+        if (!isInitial(e.terminate.script)) e.terminate = EngineDataArchetypeCallback(buildScript(e.terminate.script, data)); 
+    } 
+    dataBuffer = compress_gzip(json_encode(data.toJsonObject()), 9);
 }

@@ -1,75 +1,34 @@
-int readAccess[] = {
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b11111111,
-    0b00000100,
-};
-
-int writeAccess[] = {
-    0b10001100,
-    0b10000000,
-    0b10000000,
-    0b10001100,
-    0b10001100,
-    0b10000000,
-    0b10000000,
-    0b10000000,
-    0b10000000,
-    0b10000000,
-    0b00000000,
-    0b10000000,
-    0b10001100,
-    0b00000000,
-    0b11111111,
-    0b10000000,
-    0b11111111,
-    0b10001100,
-    0b10000000,
-    0b00000000,
-    0b11111111,
-    0b00000000
-};
-
-const int LevelMemoryId = 0;
-const int LevelDataId = 1;
-const int LevelOptionId = 2;
-const int LevelTransformId = 3;
-const int LevelBackgroundId = 4;
-const int LevelUIId = 5;
-const int LevelBucketId = 6;
-const int LevelScoreId = 7;
-const int LevelLifeId = 8;
-const int LevelUIConfigurationId = 9;
-const int EntityInfoArrayId = 10;
-const int EntityDataArrayId = 11;
-const int EntitySharedMemoryArrayId = 12;
-const int EntityInfoId = 20;
-const int EntityMemoryId = 21;
-const int EntityDataId = 22;
-const int EntityInputId = 23;
-const int EntitySharedMemoryId = 24;
-const int ArchetypeLifeId = 30;
-const int EngineRomId = 50;
-const int TemporaryMemoryId = 100;
-const int TemporaryTouchDataId = 101;
+const int LevelMemoryId = 2000;
+const int LevelDataId = 2002;
+// const int LevelOptionId = 2;
+// const int LevelTransformId = 3;
+// const int LevelBackgroundId = 4;
+// const int LevelUIId = 5;
+const int LevelBucketId = 2003;
+const int LevelScoreId = 2004;
+const int LevelLifeId = 2005;
+// const int LevelUIConfigurationId = 9;
+const int EntityInfoArrayId = 4103;
+const int EntityDataArrayId = 4101;
+const int EntitySharedMemoryArrayId = 4102;
+const int EntityInfoId = 4003;
+const int EntityMemoryId = 4000;
+const int EntityDataId = 4001;
+const int EntityInputId = 4005;
+const int EntitySharedMemoryId = 4002;
+const int ArchetypeLifeId = 5000;
+const int EngineRomId = 3000;
+const int TemporaryMemoryId = 10000;
+// const int TemporaryTouchDataId = 101;
+const int EntityDespawnId = 4004;
+const int RuntimeEnvironmentId = 1000;
+const int RuntimeUpdateId = 1001;
+const int RuntimeTouchArrayId = 1002;
+const int RuntimeSkinTransformId = 1003;
+const int RuntimeParticleTransformId = 1004;
+const int RuntimeBackgroundId = 1005;
+const int RuntimeUIId = 1006;
+const int RuntimeUIConfigurationId = 1007;
 
 template<int identifierId>
 class Pointer {
@@ -103,22 +62,22 @@ class PointerArray {
     T operator [] (FuncNode offset) {return T(Multiply({offset, blockSize}));};
 };
 
-#include"archetypeLife.h"
-#include"engineRom.h"
-#include"entityData.h"
-#include"entityInfo.h"
-#include"entityInput.h"
-#include"entityMemory.h"
-#include"entitySharedMemory.h"
-#include"levelBackground.h"
-#include"levelBucket.h"
-#include"levelData.h"
-#include"levelLife.h"
-#include"levelMemory.h"
-#include"levelOption.h"
-#include"levelScore.h"
-#include"levelTransform.h"
-#include"levelUI.h"
-#include"levelUIConfiguration.h"
-#include"temporaryMemory.h"
-#include"temporaryTouchData.h"
+// #include"archetypeLife.h"
+// #include"engineRom.h"
+// #include"entityData.h"
+// #include"entityInfo.h"
+// #include"entityInput.h"
+// #include"entityMemory.h"
+// #include"entitySharedMemory.h"
+// #include"levelBackground.h"
+// #include"levelBucket.h"
+// #include"levelData.h"
+// #include"levelLife.h"
+// #include"levelMemory.h"
+// #include"levelOption.h"
+// #include"levelScore.h"
+// #include"levelTransform.h"
+// #include"levelUI.h"
+// #include"levelUIConfiguration.h"
+// #include"temporaryMemory.h"
+// #include"temporaryTouchData.h"
