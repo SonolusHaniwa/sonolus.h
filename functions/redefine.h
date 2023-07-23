@@ -66,12 +66,12 @@ FuncNode operator ~ (FuncNode a) {
     return Not(a);
 }
 
-FuncNode operator ++ (FuncNode a) {
-    return Add({a, 1});
+FuncNode operator ++ (FuncNode& a) {
+    return a = Add({a, 1});
 }
 
-FuncNode operator -- (FuncNode a) {
-    return Subtract({a, 1});
+FuncNode operator -- (FuncNode& a) {
+    return a = Subtract({a, 1});
 }
 
 FuncNode operator += (FuncNode& a, FuncNode b) {

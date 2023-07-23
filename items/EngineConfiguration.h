@@ -39,7 +39,7 @@ class EngineConfigurationSliderOption {
     Json::Value toJsonObject() {
         Json::Value res;
         res["name"] = name;
-        res["standard"] = standard;
+        res["standard"] = (int)standard;
         res["scope"] = scope;
         res["type"] = type;
         res["def"] = def;
@@ -73,10 +73,10 @@ class EngineConfigurationToggleOption {
     Json::Value toJsonObject() {
         Json::Value res;
         res["name"] = name;
-        res["standard"] = standard;
+        res["standard"] = (int)standard;
         res["scope"] = scope;
         res["type"] = type;
-        res["def"] = def;
+        res["def"] = (int)def;
         return res;
     }
 };
@@ -110,7 +110,7 @@ class EngineConfigurationSelectOption {
     Json::Value toJsonObject() {
         Json::Value res;
         res["name"] = name;
-        res["standard"] = standard;
+        res["standard"] = (int)standard;
         res["scope"] = scope;
         res["type"] = type;
         res["def"] = def;
