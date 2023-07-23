@@ -4,9 +4,7 @@
 
 使用 C++ 开发的一个 Sonolus 引擎开发库。
 
-目前该项目仅处于开发完成状态，并未进行完全测试，不保证生成出的文件能够正常使用。
-
-测试引擎地址: https://github.com/SonolusHaniwa/sonolus-hwpl-engine/tree/dev
+样例引擎地址: https://github.com/SonolusHaniwa/sonolus-hwpl-engine
 
 ## 链接
 
