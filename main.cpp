@@ -1,30 +1,28 @@
 #include<bits/stdc++.h>
 #include"sonolus.h"
 using namespace std;
-string readFile(string path) {
-    ifstream fin(path.c_str());
-    fin.seekg(0, ios::end);
-    int len = fin.tellg();
-    if (len == -1) return "";
-    fin.seekg(0, ios::beg);
-    char* ch = new char[len];
-    fin.read(ch, len);
-    string buffer;
-    for (int i = 0; i < len; i++) buffer.push_back(ch[i]);
-    delete[] ch;
-    return buffer;
-}
 
 const string dist = "./dist";
+#include"engine/engine.cpp"
 
-int main() {
-    EngineData engineData;
-    EngineConfiguration engineConfiguration;
-
-    buffer resData, resConfiguration;
-    build(engineConfiguration, engineData, resConfiguration, resData);
+int main(int argc, char** argv) {
+    engineConfiguration.ui = configurationUI;
+#ifdef play
+    buffer data, configuration;
+    build<
+        // Replace with your archetypes here
+        Archetype
+    >(configuration, data);
     ofstream fout((dist + "/EngineConfiguration"));
-    for (int i = 0; i < resConfiguration.size(); i++) fout << resConfiguration.v[i];
+    for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
     fout.close(); fout.open((dist + "/EngineData"));
-    for (int i = 0; i < resData.size(); i++) fout << resData.v[i];
+    for (int i = 0; i < data.size(); i++) fout << data.v[i];
+#elif tutorial
+    buffer data, configuration;
+    build(configuration, data);
+    ofstream fout((dist + "/EngineConfiguration"));
+    for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
+    fout.close(); fout.open((dist + "/EngineTutorialData"));
+    for (int i = 0; i < data.size(); i++) fout << data.v[i];
+#endif
 }

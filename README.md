@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/SonolusHaniwa/sonolus-server-cpp/assets/63852815/e7f00aea-cc1b-428b-8611-0c1844dcd15a"/></p>
+<p align="center"><img src="http://pic.littleyang.ml/sonolus-server-screenshot/favicon.png"/></p>
 
 <h1 align="center">Sonolus Engine Library in C++</h1>
 
@@ -35,6 +35,8 @@ g++ main.cpp -omain -ljsoncpp -lssl -lcrypto -lz
 
 - `-DDISABLE_JSPREFER`: 禁用 NodeJS 代码偏好。(即禁用 `typedef FuncNode var;` 和 `typedef FuncNode let;` 以避免冲突问题)
 - `-DDISABLE_REDEFINE`: 禁用 `FuncNode` 的运算符重载。(即禁用所有 `FuncNode operator * (FuncNode a, FuncNode b){}`)
+- `-Dplay`: 编译 EnginePlayData 和 EngineConfiguration
+- `-Dtutorial`: 编译 EngineTutorialData 和 EngineConfiguration
 
 ## Todo List
 
@@ -48,6 +50,12 @@ g++ main.cpp -omain -ljsoncpp -lssl -lcrypto -lz
 - [ ] 实现简单的编译报错功能。
 
 ## 更新日志
+
+### v1.1.0 for Sonolus 0.7.2 2023.8.9
+
+1. 新增对 TutorialData 的支持
+2. 新增 IF/ELSE/FOR 宏定义
+3. 修改整体架构
 
 ### v1.0.0-alpha for Sonolus 0.7.0 2023.6.17
 

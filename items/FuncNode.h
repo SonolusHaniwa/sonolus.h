@@ -7,13 +7,14 @@ class FuncNode {
     public:
     bool isValue;
     double value;
-    RuntimeFunction func;
+    string func;
     vector<FuncNode> args;
 
     FuncNode(){};
     FuncNode(int value): isValue(true), value(value){};
     FuncNode(double value): isValue(true), value(value){};
-    FuncNode(RuntimeFunction func, vector<FuncNode> args): isValue(false), func(func), args(args){};
+    FuncNode(string func, vector<FuncNode> args): isValue(false), func(func), args(args){};
+    FuncNode(initializer_list<FuncNode> args): isValue(false), func("Execute"), args(args){};
 
     string stringify(int tabSize = 2, int maxSize = 100, int tabDepth = 0) {
         string result = "", tab = "", singleTab = "";
@@ -21,7 +22,7 @@ class FuncNode {
         for (int i = 1; i <= tabSize; i++) singleTab.push_back(' ');
         if (isValue) return tab + "ValueNode { value: " + to_string(value) + " }";
         result += tab + "FuncNode {\n";
-        result += tab + singleTab + "func: '" + RuntimeFunctionString[func] + "',\n";
+        result += tab + singleTab + "func: '" + func + "',\n";
         result += tab + singleTab + "args: [\n";
         for (int i = 0; i < min((int)args.size(), maxSize); i++)
             result += args[i].stringify(tabSize, maxSize, tabDepth + 2) + (i == args.size() - 1 ? "" : ",") + "\n";
