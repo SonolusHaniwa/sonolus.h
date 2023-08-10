@@ -1,4 +1,4 @@
-<p align="center"><img src="http://pic.littleyang.ml/sonolus-server-screenshot/favicon.png"/></p>
+<p align="center"><img src="http://pic.littleyang.me/sonolus-server-screenshot/favicon.png"/></p>
 
 <h1 align="center">Sonolus Engine Library in C++</h1>
 
@@ -19,7 +19,7 @@
 sudo apt install libjsoncpp-dev libssl-dev zlib1g-dev -y
 ```
 
-在主程序中直接引入 `sonolus.h` 即可。`main.cpp` 为示例程序。
+在主程序中直接引入 `sonolus.h` 即可。`main.cpp` 和 `engine/*` 为示例程序。
 
 ### 编译
 
