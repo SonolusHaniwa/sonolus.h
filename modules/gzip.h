@@ -1,6 +1,10 @@
 #ifndef GZIP_H
 #define GZIP_H
+#ifdef __EMSCRIPTEN__
+#include"/usr/include/zlib.h"
+#else 
 #include<zlib.h>
+#endif
 
 using std::string;
 using std::stringstream;
@@ -99,7 +103,9 @@ buffer decompress_gzip(buffer str) {
     memset(&zs, 0, sizeof(zs));
     if (inflateInit2(&zs, MOD_GZIP_ZLIB_WINDOWSIZE + 16) != Z_OK)
         throw(std::runtime_error("inflateInit failed while decompressing."));
-    zs.next_in = (Bytef*)str.asCString();
+    char* x = new char[str.size()];
+    for (int i = 0; i < str.size(); i++) x[i] = str.v[i];
+    zs.next_in = (Bytef*)x;
     zs.avail_in = str.size();
     int ret;
     char outbuffer[100010];
@@ -116,7 +122,7 @@ buffer decompress_gzip(buffer str) {
         std::ostringstream oss;
         oss << "Exception during zlib decompression: (" << ret << ") " << zs.msg;
         throw(std::runtime_error(oss.str()));
-    }
+    } delete[] x;
     return buffer(outstring);
 }
 

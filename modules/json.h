@@ -1,6 +1,12 @@
 #ifndef JSON_H
 #define JSON_H
 
+#ifdef __EMSCRIPTEN__
+#include"/usr/include/jsoncpp/json/json.h"
+#else
+#include<jsoncpp/json/json.h>
+#endif
+
 using namespace std;
 
 string json_encode(Json::Value val) {

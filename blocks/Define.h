@@ -13,6 +13,10 @@ T defineSkins(vector<pair<string, int> > skins) {
         engineData.skin_sprites.push_back(skins[i]);
     for (int i = 0; i < skins.size(); i++)
         engineTutorialData.skin_sprites.push_back(skins[i]);
+    for (int i = 0; i < skins.size(); i++)
+        enginePreviewData.skin_sprites.push_back(skins[i]);
+    for (int i = 0; i < skins.size(); i++)
+        engineWatchData.skin_sprites.push_back(skins[i]);
     return T();
 }
 
@@ -22,6 +26,8 @@ T defineEffects(vector<pair<string, int> > effects) {
         engineData.effect_clips.push_back(effects[i]);
     for (int i = 0; i < effects.size(); i++)
         engineTutorialData.effect_clips.push_back(effects[i]);
+    for (int i = 0; i < effects.size(); i++)
+        engineWatchData.effect_clips.push_back(effects[i]);
     return T();
 }
 
@@ -31,6 +37,8 @@ T defineParticles(vector<pair<string, int> > particles) {
         engineData.particle_effects.push_back(particles[i]);
     for (int i = 0; i < particles.size(); i++)
         engineTutorialData.particle_effects.push_back(particles[i]);
+    for (int i = 0; i < particles.size(); i++)
+        engineWatchData.particle_effects.push_back(particles[i]);
     return T();
 }
 
@@ -38,6 +46,8 @@ template<typename T>
 T defineBuckets(vector<EngineDataBucket> buckets) {
     for (int i = 0; i < buckets.size(); i++)
         engineData.buckets.push_back(buckets[i]);
+    for (int i = 0; i < buckets.size(); i++)
+        engineWatchData.buckets.push_back(buckets[i]);
     return T();
 }
 
@@ -55,17 +65,22 @@ T defineInstructionIcons(vector<pair<string, int> > icons) {
     return T();
 }
 
-FuncNode definePreprocess(FuncNode func) {
+function<FuncNode()> definePreprocess(function<FuncNode()> func) {
     tutorialPreprocess = func;
     return func;
 }
 
-FuncNode defineNavigate(FuncNode func) {
+function<FuncNode()> defineNavigate(function<FuncNode()> func) {
     tutorialNavigate = func;
     return func;
 }
 
-FuncNode defineUpdate(FuncNode func) {
+function<FuncNode()> defineUpdate(function<FuncNode()> func) {
     tutorialUpdate = func;
     return func;
+}
+
+function<FuncNode()> defineUpdateSpawn(function<FuncNode()> func) {
+	engineWatchData_updateSpawn = func;
+	return func;
 }
