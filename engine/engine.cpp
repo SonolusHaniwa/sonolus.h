@@ -1,5 +1,7 @@
-string scope = "test";
+string Scope = "test";
 
+#include"configuration/options.cpp"
+#include"configuration/ui.cpp"
 #include"skins.cpp"
 #include"backgrounds.cpp"
 #include"effects.cpp"

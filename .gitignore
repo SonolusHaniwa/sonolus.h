@@ -2,7 +2,7 @@ EngineConfiguration
 EngineData
 EngineConfiguration.json
 EngineData.json
-dist
+dist/*
 main
 !dist/ParticleTexture
 !dist/ParticleData

@@ -4,7 +4,7 @@ bool unused_background_unused = [](){
         fit: BackgroundDataFit.cover,
         color: "#000000"
     }, {
-        scope: scope,
+        scope: Scope,
         blur: 0.0,
         mask: "#000000"
     });

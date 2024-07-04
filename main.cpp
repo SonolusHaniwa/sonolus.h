@@ -5,10 +5,7 @@ const string dist = "./dist";
 
 #include"engine/engine.cpp"
 
-EngineConfigurationUI configurationUI;
-
 int main(int argc, char** argv) {
-    engineConfiguration.ui = configurationUI;
 #ifdef play
     buffer data, configuration;
     build<
