@@ -19,6 +19,10 @@ class EffectData {
 void packEffect(string audioDir, string dataDir) {
 	cout << "Packing Effect Audios..." << endl;
     EffectData data;
+    if (engineData.effect_clips.size() == 0) {
+        ofstream fout(audioDir); 
+        fout.close();
+    }
     for (int i = 0; i < engineData.effect_clips.size(); i++) {
         string name = engineData.effect_clips[i].first;
         string filename = to_string(i);

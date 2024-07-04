@@ -3,6 +3,7 @@ EngineData
 EngineConfiguration.json
 EngineData.json
 dist
-make
 main
-*.zip
+!dist/ParticleTexture
+!dist/ParticleData
+!dist/thumbnail.png

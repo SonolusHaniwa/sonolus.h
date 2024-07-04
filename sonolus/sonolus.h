@@ -40,10 +40,10 @@ typedef FuncNode let;
 #define VOID e1e1d3d40573127e9ee0480caf1283d6(mergeNodeContainer()), 0;
 
 #include"blocks/Archetype.h"
-function<FuncNode()> tutorialPreprocess;
-function<FuncNode()> tutorialNavigate;
-function<FuncNode()> tutorialUpdate;
-function<FuncNode()> engineWatchData_updateSpawn;
+function<FuncNode()> tutorialPreprocess = [](){ FUNCBEGIN Return(0); return VOID; };
+function<FuncNode()> tutorialNavigate = [](){ FUNCBEGIN Return(0); return VOID; };
+function<FuncNode()> tutorialUpdate = [](){ FUNCBEGIN Return(0); return VOID; };
+function<FuncNode()> engineWatchData_updateSpawn = [](){ FUNCBEGIN Return(0); return VOID; };
 #include"blocks/Define.h"
 
 // map<EngineDataNode, int> hashMap;
@@ -251,9 +251,18 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 #elif tutorial
     cout << "Solving Archetype \"Sonolus Tutorial Default\"..." << endl;
     time_t st = millitime();
-    engineTutorialData.preprocess = Block(tutorialPreprocess()).getNodeId();
-    engineTutorialData.navigate = Block(tutorialNavigate()).getNodeId();
-    engineTutorialData.update = Block(tutorialUpdate()).getNodeId();
+    createAllocatorBackup();
+    createNodeContainer(); auto tmpres = tutorialPreprocess();
+	if (nodesContainer.top().size() == 0) Return(tmpres);
+	engineTutorialData.preprocess = mergeNodeContainer().getNodeId();
+    restoreAllocatorBackup();
+    createNodeContainer(); tmpres = tutorialNavigate();
+    if (nodesContainer.top().size() == 0) Return(tmpres);
+    engineTutorialData.navigate = mergeNodeContainer().getNodeId();
+    restoreAllocatorBackup();
+    createNodeContainer(); tmpres = tutorialUpdate();
+    if (nodesContainer.top().size() == 0) Return(tmpres);
+    engineTutorialData.update = mergeNodeContainer().getNodeId();
 	engineTutorialData.nodes = dataContainer;
     time_t d = millitime() - st;
     cout << "Solved Archetype \"Sonolus Tutorial Default\" in " << d << "ms. Speed: " 
@@ -308,13 +317,34 @@ void build(buffer& configurationBuffer, buffer& dataBuffer) {
 #define CONTINUE Break(blockCounter.top() - ForBlockCount - 1, 0)
 #define BREAK Break(blockCounter.top() - ForBlockCount, 0)
 
+string readFile(string path) {
+    ifstream fin(path);
+    fin.seekg(0, ios::end); int len = fin.tellg();
+    if (len == -1) {
+        throwError("File not found: " + path);
+        return "";
+    }
+    fin.seekg(0, ios::beg);
+    char* ch = new char[len]; fin.read(ch, len); fin.close();
+    string res = string(ch, len); delete[] ch;
+    return res;
+}
+
+void writeFile(string path, string content) {
+    ofstream fout(path);
+    fout.write(content.c_str(), content.size());
+    fout.close();
+}
+
 #include"blocks/Array.h"
 #include"blocks/Map.h"
 #include"items/PlayData.h"
-// #include"items/TutorialData.h"
+#include"items/TutorialData.h"
 #include"items/PreviewData.h"
 #include"items/WatchData.h"
 #include"items/SkinData.h"
+#include"items/BackgroundData.h"
 #include"items/EffectData.h"
+#include"items/LevelData.h"
 
 #undef R

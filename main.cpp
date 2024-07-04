@@ -1,7 +1,9 @@
 #include<bits/stdc++.h>
-#include"sonolus.h"
+#include"sonolus/sonolus.h"
 using namespace std;
 const string dist = "./dist";
+
+#include"engine/engine.cpp"
 
 EngineConfigurationUI configurationUI;
 
@@ -49,6 +51,8 @@ int main(int argc, char** argv) {
 
 	// 生成 Skin
 	packSkin(dist + "/SkinTexture", dist + "/SkinData");
+    // 生成 Background
+    packBackground(dist + "/BackgroundImage", dist + "/BackgroundData", dist + "/BackgroundConfiguration");
     // 生成 Effect
     packEffect(dist + "/EffectAudio", dist + "/EffectData");
 }
