@@ -4,12 +4,13 @@
 
 使用 C++ 开发的一个 Sonolus 引擎开发库。
 
-样例引擎地址: https://github.com/SonolusHaniwa/sonolus-sirius-engine
+样例引擎地址: [World Dai Star: Dream's Stellarium](https://github.com/SonolusHaniwa/sonolus-sirius-engine), [Phigros](https://github.com/SonolusHaniwa/sonolus-phigros-engine)
 
 ## 链接
 
 - [Sonolus Website](https://sonolus.com/)
 - [Sonolus Wiki](https://wiki.sonolus.com/)
+- [SonolusHaniwa Documents](https://docs.littleyang.me/sonolus.h/basic/1.%20install.html)
 
 ## 构建
 
@@ -47,36 +48,3 @@ g++ main.cpp -omain -ljsoncpp -lssl -lcrypto -lz -lpng -lzip
 - [x] 实现简单的编译报错功能。
 - [ ] 完成英文文档。
 - [ ] 完成 wiki 界面。
-
-## 更新日志
-
-### v2.0.0 for Sonolus 0.8.0 2024.4.10
-
-1. 提供对 WatchData 和 PreviewData 的支持
-2. 新增 WHILE 宏定义
-3. 对代码进行重构，现在用 sonolus.h 编写出来的代码更像自然语言，而非机械语言
-4. 提供对 Skin/SFX 的打包接口
-5. 提供一点点编译报错功能
-
-### v1.1.0 for Sonolus 0.7.2 2023.8.9
-
-1. 新增对 TutorialData 的支持
-2. 新增 IF/ELSE/FOR 宏定义
-3. 修改整体架构
-
-### v1.0.0-alpha for Sonolus 0.7.0 2023.6.17
-
-所有基本结构体已全部完工，正在进行初步测试中。
-
-具体修改参照 https://github.com/Sonolus/wiki-engine-specs/pull/7/files
-
-### v1.0.0-alpha for Sonolus 0.6.5 2023.5.20
-
-🎁 520 特供 💝
-
-所有基本结构体已全部完工，正在进行初步测试中。
-
-1. 实现 `EngineData` 和 `EngineConfiguration` 基础结构。
-2. 实现 `FuncNode` 的运算符重载功能。
-3. 实现 `build` 功能。
-4. 预定义部分 `block` 指针，共 18 个。
