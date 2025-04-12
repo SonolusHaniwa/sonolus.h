@@ -1,55 +1,63 @@
 #include<bits/stdc++.h>
 #include"sonolus/sonolus.h"
 using namespace std;
-const string dist = "./dist";
 
-#include"engine/engine.cpp"
-
+const string scope = "";
 int main(int argc, char** argv) {
-#ifdef play
-    buffer data, configuration;
-    build<
-        // Replace with your archetypes here
-        Archetype
-    >(configuration, data);
-    ofstream fout((dist + "/EngineConfiguration"));
-    for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
-    fout.close(); fout.open((dist + "/EngineData"));
-    // ofstream fout((dist + "/EngineData"));
-    for (int i = 0; i < data.size(); i++) fout << data.v[i];
-#elif tutorial
-    buffer data, configuration;
-    build(configuration, data);
-    ofstream fout((dist + "/EngineConfiguration"));
-    for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
-    fout.close(); fout.open((dist + "/EngineTutorialData"));
-    for (int i = 0; i < data.size(); i++) fout << data.v[i];
-#elif preview
-    buffer data, configuration;
-    build<
-        // Replace with your archetypes here
-        Archetype
-    >(configuration, data);
-    ofstream fout((dist + "/EngineConfiguration"));
-    for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
-    fout.close(); fout.open((dist + "/EnginePreviewData"));
-    for (int i = 0; i < data.size(); i++) fout << data.v[i];
-#elif watch
-	buffer data, configuration;
-	build<
-		// Replace with your archetypes here
-		Archetype
-	>(configuration, data);
-    ofstream fout((dist + "/EngineConfiguration"));
-    for (int i = 0; i < configuration.size(); i++) fout << configuration.v[i];
-    fout.close(); fout.open((dist + "/EngineWatchData"));
-    for (int i = 0; i < data.size(); i++) fout << data.v[i];
-#endif
+    UI.SetScope(scope);
+    UI.SetMenu(Visibility(1.0, 1.0));
+    UI.SetJudgment(
+        Visibility(1.0, 1.0), 
+        Animation(
+            AnimationTween(0.6, 1.0, 0.1, EngineConfigurationAnimationTweenEase.InSine),
+            AnimationTween(0.6, 1.0, 0.1, EngineConfigurationAnimationTweenEase.InSine)
+        ),
+        EngineConfigurationJudgmentErrorStyle.None,
+        EngineConfigurationJudgmentErrorPlacement.LeftRight,
+        20.0
+    );
+    UI.SetCombo(
+        Visibility(1.0, 1.0),
+        Animation(
+            AnimationTween(0.6, 1.0, 0.1, EngineConfigurationAnimationTweenEase.InSine),
+            AnimationTween(0.6, 1.0, 0.1, EngineConfigurationAnimationTweenEase.Linear)
+        )
+    );
+    UI.SetMetric(
+        EngineConfigurationMetric.Arcade,
+        Visibility(1.0, 1.0),
+        EngineConfigurationMetric.Life,
+        Visibility(1.0, 1.0)
+    );
+    UI.SetProgress(Visibility(1.0, 1.0));
+    UI.SetTutorial(
+        Visibility(1.0, 1.0),
+        Visibility(1.0, 1.0)
+    );
+    BuildConfiguration();
 
-	// 生成 Skin
-	packSkin(dist + "/SkinTexture", dist + "/SkinData");
-    // 生成 Background
-    packBackground(dist + "/BackgroundImage", dist + "/BackgroundData", dist + "/BackgroundConfiguration");
-    // 生成 Effect
-    packEffect(dist + "/EffectAudio", dist + "/EffectData");
+    #ifdef play
+    BuildData(
+        Archetype
+        /* Write you code here */
+    );
+    #endif
+    #ifdef tutorial
+    BuildData();
+    #endif
+    #ifdef preview
+    BuildData(
+        Archetype
+        /* Write you code here */
+    );
+    #endif
+    #ifdef watch
+    BuildData(
+        Archetype
+        /* Write you code here */
+    );
+    #endif
+    
+    PackSkin();
+    PackEffect();
 }
