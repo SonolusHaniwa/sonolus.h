@@ -32,6 +32,8 @@ g++ .sonolus/main.cpp -omain -g -w -fpermissive -ljsoncpp -lz -lpng -lzip -Dplay
 - `SonolusApi`: The type of return value of a Sonolus function.
 - `var`: Base variable type.
 
+Structures:
+
 - `Array`: Array structure in Sonolus.
 - `Collection`: Collection(Vector) structure in Sonolus.
 - `Dictionary`: Dictionary(Map) structure in Sonolus.
@@ -58,6 +60,8 @@ g++ .sonolus/main.cpp -omain -g -w -fpermissive -ljsoncpp -lz -lpng -lzip -Dplay
 
 ### Engine API
 
+Define functions:
+
 - `defineImport`: Define imported data of current archetype.
 - `defineImportDetailed`: Define imported data of current archetype.
 - `defineExport`: Define exported data of current archtype(Play mode only).
@@ -72,6 +76,8 @@ g++ .sonolus/main.cpp -omain -g -w -fpermissive -ljsoncpp -lz -lpng -lzip -Dplay
 - `defineInstructionIcon`: Define a instruction icon.
 - `getAid`: Get archetype id by **class name**.
 
+Configuration functions:
+
 - `SliderOption`: Define a slider option.
 - `ToggleOption`: Define a toggle option.
 - `SelectOption`: Define a select option.
@@ -82,6 +88,8 @@ g++ .sonolus/main.cpp -omain -g -w -fpermissive -ljsoncpp -lz -lpng -lzip -Dplay
 - `UI.SetCombo`: Set combo UI.
 - `UI.SetProgress`: Set progress UI.
 - `UI.SetTutorial`: Set tutorial UI.
+
+Build functions:
 
 - `BuildConfiguration`: Build engine configuration.
 - `BuildPlayData`: Build engine play data(Play mode only).
@@ -105,11 +113,15 @@ g++ .sonolus/main.cpp -omain -g -w -fpermissive -ljsoncpp -lz -lpng -lzip -Dplay
 
 ### LevelData API
 
+Define functions:
+
 - `defineArchetypeName`: Define archetype name of current entity.
 - `defineLevelDataValue`: Define a value variable.
 - `defineLevelDataValueDetailed`: Define a value variable.
 - `defineLevelDataRef`: Define a ref variable.
 - `defineLevelDataRefDetailed`: Define a ref variable.
+
+LevelRawData:
 
 - `LevelRawData.bgmOffset`: BGMOffset of this level data.
 - `LevelRawData.append`: Insert a entity into the end of this level data.
@@ -119,13 +131,19 @@ g++ .sonolus/main.cpp -omain -g -w -fpermissive -ljsoncpp -lz -lpng -lzip -Dplay
 - `LevelRawData.size`: Get the size of this level data.
 - `LevelRawData.toJsonObject`: Convert this level data to json object.
 
+Other functions:
+
 - `Transform`: Transform a entity from one archetype into another archetype.
 
 ### Others
 
+`jsoncpp` library:
+
 - `json_encode`: Encode a json object to a string.
 - `json_pretty_encode`: Encode a json object to a string.
 - `json_decode`: Decode a string to a json object.
+
+`zlib` library:
 
 - `compress_gzip`: Compress a string to a gzip string.
 - `decompress_gzip`: Decompress a gzip string to a string.
