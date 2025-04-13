@@ -102,7 +102,7 @@ vector<Parameter> getCalledParameters(string s) {
 vector<Parameter> getDefinedParameters(string s) {
     return {};
 }
-Word getWord(string s, int accept = CppIdentifier, int pos = 0) {
+Word getWord(string &s, int accept = CppIdentifier, int pos = 0) {
     Word res; int tmp = pos;
     res.where = pos;
     // 读取关键字

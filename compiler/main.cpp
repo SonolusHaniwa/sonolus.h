@@ -1014,5 +1014,7 @@ int main(int argc, char** argv) {
     outputedCode = solve(preprocessedCode);
     cout << "Solving finished! Used " << 1.0 * (clock() - st) / CLOCKS_PER_SEC << "s" << endl;
     fout << "#define COMPILE_RUNTIME" << endl;
+    st = clock();
     fout << compress(outputedCode);
+    cout << "Compressing finished! Used " << 1.0 * (clock() - st) / CLOCKS_PER_SEC << "s" << endl;
 }
