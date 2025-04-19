@@ -1,6 +1,6 @@
 string readFile(string path) {
     ifstream fin;
-    fin.open(path);
+    fin.open(path, ios::binary);
     if (!fin) return "";
     fin.seekg(0, ios::end);
     int len = fin.tellg();
