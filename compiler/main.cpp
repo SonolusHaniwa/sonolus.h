@@ -1,4 +1,7 @@
 #include<bits/stdc++.h>
+#ifndef __linux__
+#include<direct.h>
+#endif
 using namespace std;
 
 bool enableWarning = false;
@@ -998,7 +1001,11 @@ int main(int argc, char** argv) {
     string output = argc > 2 ? argv[2] : ".sonolus";
     enableWarning = !(argc > 3);
     if (output.back() != '/' && output.back() != '\\') output += "/";
+    #ifdef __linux__
     mkdir(output.c_str(), 0777);
+    #else
+    _mkdir(output.c_str());
+    #endif
     ofstream fout; fout.open(output + "main.cpp");
     mergedCode = getCode(entry);
     // fout << mergedCode;
