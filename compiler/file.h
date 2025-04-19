@@ -39,7 +39,11 @@ void forceMkdir(string path, int mode) {
         );
         if (nxt == 1e9) break;
         string name = path.substr(0, nxt);
+        #ifdef __linux__
         mkdir(name.c_str(), mode);
+        #else
+        _mkdir(name.c_str());
+        #endif
         st = nxt + 1;
     }
 }
