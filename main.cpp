@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
     #ifdef play
     BuildData(
         Archetype
-        /* Write you code here */
+        /* Write your code here */
     );
     #endif
     #ifdef tutorial
@@ -48,13 +48,13 @@ int main(int argc, char** argv) {
     #ifdef preview
     BuildData(
         Archetype
-        /* Write you code here */
+        /* Write your code here */
     );
     #endif
     #ifdef watch
     BuildData(
         Archetype
-        /* Write you code here */
+        /* Write your code here */
     );
     #endif
     
