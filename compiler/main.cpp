@@ -43,6 +43,7 @@ void output(SourceInfo source, string type, string msg) {
 vector<SourceInfo> sources; // 每一行所对应的位置
 string getCode(string src) {
     string source = readFile(src);
+    source = str_replace("\r", "", source);
     string srcBase = getBasePath(src);
     auto commands = explode("\n", source);
     string result = ""; int dt = 0;
