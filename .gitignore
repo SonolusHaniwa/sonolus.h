@@ -8,6 +8,6 @@ decompiler
 dist
 effects
 skins
+engine
 !sonolus/engine
 levelData.cpp
-engine
