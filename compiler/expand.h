@@ -172,7 +172,7 @@ Word getWord(string &s, int accept = CppIdentifier, int pos = 0) {
         }
     }
     // 否则是特殊字符
-    res.code = s[pos]; res.type = CppSpecial;
+    res.code = pos >= s.size() ? "" : string(1, s[pos]); res.type = CppSpecial;
     return res;
 }
 int findRealWord(string s, string t, int pos) {

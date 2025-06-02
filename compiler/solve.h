@@ -7,6 +7,21 @@ set<string> blockedPreprocessor = {
     "CppLoop"
 };
 
+set<string> needBlockedFunction = {
+    "abs", "exp", "log", "pow", "sqrt", "cbrt", "hypot",
+    "sin", "cos", "tan", "asin", "acos", "atan", "atan2",
+    "sinh", "cosh", "tanh", "asinh", "acosh", "atanh",
+    "erf", "erfc", "tgamma", "lgamma", "ceil", "floor", "trunc", "round", "nearbyint", "rint",
+    "frexp", "ldexp", "modf", "scalbn", "ilogb", "logb", "nextafter", "copysign",
+    "fpclassify", "isfinite", "isinf", "isnan", "isnormal", "signbit", "isgreater", "isgreaterequal", "isless", "islessequal", "islessgreater", "isunordered",
+
+    "at", "front", "back", "data",
+    "begin", "cbegin", "end", "cend", "rbegin", "crbegin", "rend", "crend",
+    "empty", "size", "reserve", "capacity",
+    "clear", "insert", "emplace", "erase", "swap", "extract", "merge", "push_back", "emplace_back", "pop_back", "push_front", "emplace_front", "pop_front", "resize",
+    "count", "find", "contains", "lower_bound", "upper_bound"
+};
+
 set<string> userDefinedFunction;
 
 string solveClass(string name, string code, SourceInfo sourceInfo) {
@@ -94,12 +109,12 @@ string solveIfElse(string condition, string trueBody, string falseBody, SourceIn
     // cout << "Used: else {" << body << "}" << endl;
     if (cf.type == "SonolusApi") {
         res = "{"
-            "createNodeContainer(\"\", \"\", 0, 0, \"\", false);" + 
+            "createNodeContainer(\"\", \"\", 0, 0, \"\", false); {" + 
             trueBody +
-            "FuncNode trueNode = mergeNodeContainer(\"\", \"\", 0, 0, \"\");" 
-            "createNodeContainer(\"\", \"\", 0, 0, \"\", false);" + 
+            "} FuncNode trueNode = mergeNodeContainer(\"\", \"\", 0, 0, \"\");" 
+            "createNodeContainer(\"\", \"\", 0, 0, \"\", false); {" + 
             falseBody +
-            "FuncNode falseNode = mergeNodeContainer(\"\", \"\", 0, 0, \"\");" 
+            "} FuncNode falseNode = mergeNodeContainer(\"\", \"\", 0, 0, \"\");" 
             "SonolusRun(\"\", \"\", 0, 0, \"\", If(\"\", \"\", 0, 0, \"\", " + condition + ", trueNode, falseNode));"
         "}";
     }
@@ -238,6 +253,7 @@ string solveSwitch(string var, vector<pair<string, string> > body, SourceInfo so
     return res;
 }
 
+bool isInFunction = false;
 void solvePreDefinedFunction(DefinedFunction f) {
     bool shouldBlock = f.name == "main" || 
         (f.params.size() && f.params[0].type == "string" && f.params[0].name == "callFromFunc") ||
@@ -245,8 +261,16 @@ void solvePreDefinedFunction(DefinedFunction f) {
         getWord(f.name, CppIdentifier) == Word({CppIdentifier, "operator"}) ||
         getWord(f.type, CppIdentifier) == Word({CppIdentifier, "operator"}) ||
         ss.back().back() == Word({ CppIdentifier, "Blocked" });
+    if (!shouldBlock && needBlockedFunction.count(f.name))
+        output(f.sourceInfo, "warning", "defining a function with the same name as a library function is not recommended.");
     if (shouldBlock) ;
-    else userDefinedFunction.insert(f.name);
+    else {
+        if (isInFunction) {
+            output(f.sourceInfo, "error", "a function-definition is not allowed here.");
+        }
+        userDefinedFunction.insert(f.name);
+        isInFunction = true;
+    }
 }
 
 string solveDefinedFunction(DefinedFunction f) {
@@ -346,6 +370,7 @@ string solveDefinedFunction(DefinedFunction f) {
                 "callStacks.pop_back();"
             "}";
         }
+        isInFunction = false;
     }
     return res;
 }

@@ -6,13 +6,13 @@ using namespace std;
 
 bool enableWarning = false;
 string mode = "";
+int hasWarning = 0;
 
 #include"file.h"
 #include"string.h"
 #include"algorithm.h"
 #include"expand.h"
 vector<vector<Word> > ss;
-#include"solve.h"
 
 /**
  * @param file 源文件地址
@@ -25,6 +25,7 @@ vector<vector<Word> > ss;
  */
 void output(string file, int line, int pre, string type, string msg, string code, int len) {
     if (type == "warning" && !enableWarning) return;
+    if (type == "warning") hasWarning++;
     cout << file << ":" << line << ":" << pre + 1 << ": " << type << ": " << msg << endl;
     cout << "  " << line << " | " << code << endl;
     if (len) cout << "  " << string(to_string(line).size(), ' ') << " | " << string(pre, ' ') << "^" << string(len - 1, '~') << endl; 
@@ -34,6 +35,8 @@ void output(string file, int line, int pre, string type, string msg, string code
 void output(SourceInfo source, string type, string msg) {
     output(source.file, source.line, source.pre, type, msg, source.lineCode, source.length);
 }
+
+#include"solve.h"
 
 /**
  * @brief 多头文件代码合并
@@ -644,8 +647,10 @@ string solve(string s) {
                     func.sourceInfo = getCodePlace(getCodePlace1(getCodePlace2(wh)));
                     string s = "";
                     // 排除 lambda 表达式
-                    if (getWord(func.name, CppSpecial) != Word({ CppSpecial, "[" }))
-                        currentFunction = { {}, "", "", {}, "", {} }, s = solveDefinedFunction(func);
+                    if (getWord(func.name, CppSpecial) != Word({ CppSpecial, "[" })) {
+                        currentFunction = { {}, "", "", {}, "", {} };
+                        s = solveDefinedFunction(func);
+                    }
                     else s = [&](DefinedFunction f){
                         string res = "";
                         if (f.templates.size()) {
@@ -804,6 +809,8 @@ string solve(string s) {
                     func.name = ss.back()[ss.back().size() - 1].code;
                     func.type = ss.back()[ss.back().size() - 2].code;
                     func.sourceCode = "";
+                    func.sourceInfo = getCodePlace(getCodePlace1(getCodePlace2(ss.back()[ss.back().size() - 1].where)));
+                    func.sourceInfo.length = func.name.size();
                     func.templates = {};
                     bool hasTemplates = false;
                     Word name = ss.back()[ss.back().size() - 1], type = ss.back()[ss.back().size() - 2], templates;
@@ -841,7 +848,11 @@ string solve(string s) {
                     if (hasTemplates) ss.back().pop_back();
                     
                     // 排除掉 lambda 表达式
-                    if (getWord(ss.back().back().code, CppSpecial ) != Word({ CppSpecial, "[" })) solvePreDefinedFunction(func);
+                    if (
+                        (ss.back().size() == 0 || getWord(ss.back().back().code, CppSpecial ) != Word({ CppSpecial, "[" })) &&
+                        getWord(func.name, CppSpecial ) != Word({ CppSpecial, "[" })
+                    )
+                        solvePreDefinedFunction(func);
                     if (hasTemplates) ss.back().push_back(templates);
                     ss.back().push_back(type); ss.back().push_back(name);
                     ss.back().push_back({ CppSentence, "(" + param + ")", 0 });
@@ -890,7 +901,8 @@ string solve(string s) {
                 string sentence = "[";
                 for (int i = 0; i < ss.back().size(); i++) sentence += ss.back()[i].code + " ";
                 ss.pop_back();
-                if (ss.back().back().type == CppIdentifier) ss.back().back().code += trim(sentence) + "]";
+                if (ss.back().size() == 0) ss.back().push_back({ CppIdentifier, trim(sentence) + "]", 0 });
+                else if (ss.back().back().type == CppIdentifier) ss.back().back().code += trim(sentence) + "]";
                 else ss.back().push_back({ CppIdentifier, "", 0 }), ss.back().push_back({ CppIdentifier, trim(sentence) + "]", 0 });
             }
             else if (w.code == ";") {
@@ -1025,4 +1037,10 @@ int main(int argc, char** argv) {
     st = clock();
     fout << compress(outputedCode);
     cout << "Compressing finished! Used " << 1.0 * (clock() - st) / CLOCKS_PER_SEC << "s" << endl;
+    fout.close();
+
+    if (hasWarning) {
+        cout << hasWarning << " warning was thrown. Press `Enter` to continue compilation, or `Ctrl+C` to terminate it." << endl;
+        char c = getchar();
+    }
 }
