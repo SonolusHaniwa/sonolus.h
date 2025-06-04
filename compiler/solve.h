@@ -24,6 +24,12 @@ set<string> needBlockedFunction = {
 
 set<string> userDefinedFunction;
 
+set<string> userDefinedTutorialFunction;
+void solveDefine(string name, SourceInfo sourceInfo, vector<Parameter> params) {
+    if (set<string>({ "defineTutorialPreprocess", "defineTutorialSegment", "defineTutorialStatic" }).count(name))
+        userDefinedTutorialFunction.insert(params[0].value);
+}
+
 string solveClass(string name, string code, SourceInfo sourceInfo) {
     string res = "class " + name + "{" + code + "}";
     // cout << sourceInfo.file << ":" << sourceInfo.line << ":" << sourceInfo.pre + 1 << endl;
@@ -262,12 +268,13 @@ void solvePreDefinedFunction(DefinedFunction f) {
         getWord(f.type, CppIdentifier) == Word({CppIdentifier, "operator"}) ||
         ss.back().back() == Word({ CppIdentifier, "Blocked" });
     if (!shouldBlock && needBlockedFunction.count(f.name))
-        output(f.sourceInfo, "warning", "defining a function with the same name as a library function is not recommended.");
+        output(f.sourceInfo, "warning", "defining a function with the same name as a library function is not recommended");
     if (shouldBlock) ;
     else {
-        if (isInFunction) {
-            output(f.sourceInfo, "error", "a function-definition is not allowed here.");
-        }
+        if (isInFunction)
+            output(f.sourceInfo, "error", "a function-definition is not allowed here", true);
+        if (userDefinedTutorialFunction.count(f.name))
+            output(f.sourceInfo, "error", "defining a non-blocked segment function in tutorial mode is not allowed", true);
         userDefinedFunction.insert(f.name);
         isInFunction = true;
     }

@@ -4,9 +4,11 @@
 #endif
 using namespace std;
 
-bool enableWarning = false;
+bool enableWarning = true;
 string mode = "";
 int hasWarning = 0;
+int hasError = 0;
+bool enableDebug = false;
 
 #include"file.h"
 #include"string.h"
@@ -23,17 +25,18 @@ vector<vector<Word> > ss;
  * @param code 错误代码行
  * @param len 错误代码长度
  */
-void output(string file, int line, int pre, string type, string msg, string code, int len) {
+void output(string file, int line, int pre, string type, string msg, string code, int len, bool skipped = false) {
     if (type == "warning" && !enableWarning) return;
     if (type == "warning") hasWarning++;
+    if (type.find("error") != string::npos) hasError++;
     cout << file << ":" << line << ":" << pre + 1 << ": " << type << ": " << msg << endl;
     cout << "  " << line << " | " << code << endl;
     if (len) cout << "  " << string(to_string(line).size(), ' ') << " | " << string(pre, ' ') << "^" << string(len - 1, '~') << endl; 
     else cout << "  " << string(to_string(line).size(), ' ') << " |" << endl;
-    if (type.find("error") != string::npos) exit(1);
+    if (type.find("error") != string::npos && !skipped) exit(1);
 }
-void output(SourceInfo source, string type, string msg) {
-    output(source.file, source.line, source.pre, type, msg, source.lineCode, source.length);
+void output(SourceInfo source, string type, string msg, bool skipped = false) {
+    output(source.file, source.line, source.pre, type, msg, source.lineCode, source.length, skipped);
 }
 
 #include"solve.h"
@@ -177,6 +180,7 @@ map<string, int> definesMap;
 vector<bool> used;
 string rootCode = ""; int rootL = -1, rootR = -1, rootSize = -1;
 string rootFile = ""; int rootLine = -1;
+int sourcePre = 0;
 /**
  * @brief 给定一串代码，进行宏定义预处理
  * @param input 代码
@@ -213,6 +217,7 @@ vector<ExpandRange> codeExpand(string input, string& output2, bool root = true) 
             int l1 = out.size(); out += out2; int r1 = out.size();
             result.push_back({ res.first, res.second, d, l1, r1 });
         } else {
+            SourceInfo sourceInfo = getCodePlace(getCodePlace1(sourcePre + out.size() + 1));
             // 获取参数
             vector<Parameter> params = getCalledParameters(sourceCode.substr(sourceCode.find('(')));
             if (params.size() > d.params.size() && (d.params.size() == 0 || d.params.back().value != "...")) {
@@ -224,7 +229,7 @@ vector<ExpandRange> codeExpand(string input, string& output2, bool root = true) 
                 output(
                     rootFile, rootLine, rootL, 
                     "error", "macro \"" + d.funcName + "\" passed " + to_string(params.size()) + " arguments, but takes just " + to_string(d.params.size()),
-                    rootCode, rootSize
+                    rootCode, rootSize, true
                 );
             }
             while (params.size() < d.params.size()) params.push_back({});
@@ -236,6 +241,7 @@ vector<ExpandRange> codeExpand(string input, string& output2, bool root = true) 
                 params[d.params.size() - 1].sourceCode = last;
                 params.resize(d.params.size());
             }
+            solveDefine(d.funcName, sourceInfo, params);
             sourceCode = d.target;
             // 参数替换
             struct range { int l, len; string to; }; vector<range> rs;
@@ -365,6 +371,7 @@ string preprocess(string s) {
             rootFile = sources[i].file;
             rootLine = sources[i].line;
             string output = "";
+            sourcePre = source.size();
             auto x = codeExpand(commands[i], output);
             for (int j = 0; j < x.size(); j++) {
                 auto v = x[j];
@@ -1003,16 +1010,68 @@ string compress(string s) {
     return output;
 }
 
+/**
+ * @brief 代码格式化
+ * 
+ * @param s 输入代码
+ * @return 格式化后代码
+ */
+string decompress(string s) {
+    bool inDefine = false;
+    string res = ""; int bra = 0; int inbra = 0;
+    for (int i = 0; i < s.size(); i++) {
+        if (!inbra && !inDefine && s[i] == '}') bra--;
+        if (res.size() && res.back() == '\n')
+            for (int j = 0; j < bra; j++) res += '\t';
+        if (s[i] == '(') inbra++;
+        if (s[i] == ')') inbra--;
+        res += s[i];
+        if (s[i] == '#' && i && s[i - 1] == '\n') inDefine = true;
+        if (s[i] == '\n' && i && s[i - 1] != '\\') inDefine = false;
+        if (!inbra && !inDefine) {
+            if (s[i] == '{') res += '\n', bra++;
+            if (s[i] == ';' || s[i] == '}') res += '\n';
+        }
+    }
+    return res;
+}
+
+void helpText(string argv) {
+    cout << "Sonolus Engine C++ Compiler v1.0.0" << endl;
+    cout << endl;
+    cout << "Usage: " << argv << " <main.cpp> [output] [options]" << endl;
+    cout << "Compiled at " << __TIME__ << " " << __DATE__ << endl;
+    cout << "Options:" << endl;
+    cout << "  -h, --help: Show this help message" << endl;
+    exit(1);
+}
+
 int main(int argc, char** argv) {
+    for (int i = argc > 2 && argv[2][0] == '-' ? 2 : 3; i < argc; i++) {
+        string arg = argv[i];
+        if (arg == "-h" || arg == "--help") {
+            cout << "Usage: " << argv[0] << " <main.cpp> [output] [options]" << endl;
+            cout << "Compiled at " << __TIME__ << " " << __DATE__ << endl;
+            return 0;
+        }
+        else if (arg == "-w") {
+            enableWarning = false;
+        }
+        else if (arg == "-g") {
+            enableDebug = true;
+        }
+        else {
+            cout << "compiler: error: unrecognized command-line option `" << arg << "`" << endl;
+        }
+    }
+
     if (argc < 2) {
-        cout << "Sonolus Engine C++ Compiler v1.0.0" << endl;
-        cout << endl;
-        cout << "Usage: " << argv[0] << " <main.cpp> [output] [-w]" << endl;
-        return 1;
+        cout << "compiler: fatel error: no input files" << endl;
+        exit(1);
     }
     string entry = argv[1];
-    string output = argc > 2 ? argv[2] : ".sonolus";
-    enableWarning = !(argc > 3);
+    string output;
+    output = argc > 2 && argv[2][0] != '-' ? argv[2] : ".sonolus";
     if (output.back() != '/' && output.back() != '\\') output += "/";
     #ifdef __linux__
     mkdir(output.c_str(), 0777);
@@ -1024,23 +1083,27 @@ int main(int argc, char** argv) {
     // fout << mergedCode;
     time_t st = clock();
     uncommentedCode = uncomment(mergedCode);
-    cout << "Uncommenting finished! Used " << 1.0 * (clock() - st) / CLOCKS_PER_SEC << "s" << endl;
+    // cout << "Uncommenting finished! Used " << 1.0 * (clock() - st) / CLOCKS_PER_SEC << "s" << endl;
     // fout << uncommentedCode;
     st = clock();
     preprocessedCode = preprocess(uncommentedCode);
-    cout << "Preprocessing finished! Used " << 1.0 * (clock() - st) / CLOCKS_PER_SEC << "s" << endl;
+    // cout << "Preprocessing finished! Used " << 1.0 * (clock() - st) / CLOCKS_PER_SEC << "s" << endl;
     // fout << preprocessedCode;
     st = clock();
     outputedCode = solve(preprocessedCode);
-    cout << "Solving finished! Used " << 1.0 * (clock() - st) / CLOCKS_PER_SEC << "s" << endl;
+    // cout << "Solving finished! Used " << 1.0 * (clock() - st) / CLOCKS_PER_SEC << "s" << endl;
     fout << "#define COMPILE_RUNTIME" << endl;
     st = clock();
-    fout << compress(outputedCode);
-    cout << "Compressing finished! Used " << 1.0 * (clock() - st) / CLOCKS_PER_SEC << "s" << endl;
+    fout << (enableDebug ? decompress(compress(outputedCode)) : compress(outputedCode));
+    // cout << "Compressing finished! Used " << 1.0 * (clock() - st) / CLOCKS_PER_SEC << "s" << endl;
     fout.close();
 
-    if (hasWarning) {
-        cout << hasWarning << " warning was thrown. Press `Enter` to continue compilation, or `Ctrl+C` to terminate it." << endl;
-        char c = getchar();
+    if (hasWarning || hasError) {
+        cout << hasError << " errors and " << hasWarning << " warnings was thrown. " << endl;
+        if (hasError) exit(1);
+        else {
+            cout << "Press `Enter` to continue compilation, or `Ctrl+C` to terminate it." << endl;
+            char c = getchar();
+        }
     }
 }
