@@ -10,6 +10,7 @@ class Collection {
 
     Constructor Collection(){}
 
+    [[deprecated("Use Collection::operator[](FuncNode) instead.")]]
     Blocked T get(FuncNode i) {
         return array[i];
     }
@@ -30,7 +31,7 @@ class Collection {
         count = 0;
     }
 
-    T operator[] (FuncNode i) {
+    T& operator[] (FuncNode i) {
         return array[i];
     }
 };

@@ -161,7 +161,6 @@ vector<pair<string, string> > particle_effects;
 #include"containers/Rect.h"
 #include"containers/Quad.h"
 
-
 #include"resource/Skins.h"
 #include"resource/Effects.h"
 #include"resource/Particles.h"

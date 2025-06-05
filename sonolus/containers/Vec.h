@@ -115,7 +115,7 @@ class Vector {
         x++; y++;
         return *this;
     }
-    Vector& operator ++ (int) {
+    Vector operator ++ (int) {
         auto res = (*this);
         ++(*this);
         return res;
@@ -124,7 +124,7 @@ class Vector {
         x--; y--;
         return *this;
     }
-    Vector& operator -- (int) {
+    Vector operator -- (int) {
         auto res = (*this);
         --(*this);
         return res;

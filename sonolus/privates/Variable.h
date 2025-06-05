@@ -117,7 +117,7 @@ Variable& operator ++ (Variable &a) {
     return a;
 }
 
-Variable& operator ++ (Variable &a, int) {
+Variable operator ++ (Variable &a, int) {
     auto res = a;
     ++a;
     return res;
@@ -128,7 +128,7 @@ Variable& operator -- (Variable &a) {
     return a;
 }
 
-Variable& operator -- (Variable &a, int) {
+Variable operator -- (Variable &a, int) {
     auto res = a;
     --a;
     return res;

@@ -1017,9 +1017,19 @@ string compress(string s) {
  * @return 格式化后代码
  */
 string decompress(string s) {
+    bool in1 = false, in2 = false;
     bool inDefine = false;
     string res = ""; int bra = 0; int inbra = 0;
     for (int i = 0; i < s.size(); i++) {
+        if (in1 || in2) {
+            res += s[i];
+            if (s[i] == '"' && in1) in1 = false;
+            if (s[i] == '\'' && in2) in2 = false;
+            continue;
+        } else {
+            if (s[i] == '"') in1 = true;
+            if (s[i] == '\'') in2 = true;
+        }
         if (!inbra && !inDefine && s[i] == '}') bra--;
         if (res.size() && res.back() == '\n')
             for (int j = 0; j < bra; j++) res += '\t';

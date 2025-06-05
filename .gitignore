@@ -11,3 +11,6 @@ skins
 engine
 !sonolus/engine
 levelData.cpp
+*.log
+*.test
+tests

@@ -29,7 +29,8 @@ class Array {
         for (int i = 0; i < size; i++) (*this)[i] = value[i];
     }
 
-    T operator[] (FuncNode i) {
+    T *tmp = NULL;
+    T& operator[] (FuncNode i) {
         int backupDefaultAllocatorId = defaultAllocatorId;
         defaultAllocatorId = currentDefaultAllocatorId;
         map<int, FuncNode> offsets;
@@ -41,14 +42,15 @@ class Array {
         auto backupSonolusMemoryDelta = SonolusMemoryDelta;
         SonolusMemoryIndex = offsets;
         SonolusMemoryDelta.clear();
-        T res;
+        if (tmp != NULL) delete tmp;
+        tmp = new T();
         SonolusMemoryIndex = backupSonolusMemoryIndex;
         SonolusMemoryDelta = backupSonolusMemoryDelta;
         defaultAllocatorId = backupDefaultAllocatorId;
-        return res;
+        return *tmp;
     }
-    T operator[] (FuncNode i) const {
-        return (*this)[i];
+    T& operator[] (FuncNode i) const {
+        return (*const_cast<Array<T, size>* >(this))[i];
     }
     Array<T, size>& operator = (const Array<T, size>& value) {
         for (int i = 0; i < size; i++) (*this)[i] = value[i];

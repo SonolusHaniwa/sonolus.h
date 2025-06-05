@@ -97,7 +97,7 @@ class Range {
         min++; max++;
         return *this;
     }
-    Range& operator ++ (int) {
+    Range operator ++ (int) {
         auto res = (*this);
         ++(*this);
         return res;
@@ -106,7 +106,7 @@ class Range {
         min--; max--;
         return *this;
     }
-    Range& operator -- (int) {
+    Range operator -- (int) {
         auto res = (*this);
         --(*this);
         return res;

@@ -43,7 +43,7 @@ string compress_deflate(string str, int compressionlevel = Z_BEST_COMPRESSION) {
     memset(&zs, 0, sizeof(zs));
     if (deflateInit(&zs, compressionlevel) != Z_OK)
         throw(runtime_error("deflateInit failed while compressing."));
-    zs.next_in = (Bytef*)str.c_str();
+    zs.next_in = (Bytef*)(str.c_str());
     zs.avail_in = str.size();
     int ret;
     char outbuffer[32768];
@@ -70,7 +70,7 @@ string decompress_deflate(string str) {
     memset(&zs, 0, sizeof(zs));
     if (inflateInit(&zs) != Z_OK)
         throw(runtime_error("inflateInit failed while decompressing."));
-    zs.next_in = (Bytef*)str.c_str();
+    zs.next_in = (Bytef*)(str.c_str());
     zs.avail_in = str.size();
     int ret;
     char outbuffer[32768];

@@ -261,6 +261,8 @@ string solveSwitch(string var, vector<pair<string, string> > body, SourceInfo so
 
 bool isInFunction = false;
 void solvePreDefinedFunction(DefinedFunction f) {
+    // 排除用 new 新建指针
+    if (f.type == "new") return;
     bool shouldBlock = f.name == "main" || 
         (f.params.size() && f.params[0].type == "string" && f.params[0].name == "callFromFunc") ||
         f.type == "Constructor" || f.type == "Destructor" || f.type == "operator" ||

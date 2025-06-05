@@ -155,7 +155,7 @@ string compress_deflate(string str, int compressionlevel = Z_BEST_COMPRESSION) {
     memset(&zs, 0, sizeof(zs));
     if (deflateInit(&zs, compressionlevel) != Z_OK)
         throw(runtime_error("deflateInit failed while compressing."));
-    zs.next_in = (Bytef*)str.c_str();
+    zs.next_in = (Bytef*)(str.c_str());
     zs.avail_in = str.size();
     int ret;
     char outbuffer[32768];
@@ -182,7 +182,7 @@ string decompress_deflate(string str) {
     memset(&zs, 0, sizeof(zs));
     if (inflateInit(&zs) != Z_OK)
         throw(runtime_error("inflateInit failed while decompressing."));
-    zs.next_in = (Bytef*)str.c_str();
+    zs.next_in = (Bytef*)(str.c_str());
     zs.avail_in = str.size();
     int ret;
     char outbuffer[32768];
@@ -2483,7 +2483,7 @@ Variable& operator ++ (Variable &a) {
     return a;
 }
 
-Variable& operator ++ (Variable &a, int) {
+Variable operator ++ (Variable &a, int) {
     auto res = a;
     ++a;
     return res;
@@ -2494,7 +2494,7 @@ Variable& operator -- (Variable &a) {
     return a;
 }
 
-Variable& operator -- (Variable &a, int) {
+Variable operator -- (Variable &a, int) {
     auto res = a;
     --a;
     return res;
@@ -2573,8 +2573,11 @@ class VariablesArray {
     Constructor VariablesArray(){}
     Constructor VariablesArray(FuncNode offset, FuncNode siz): offset(offset), siz(siz){}
 
-    Variable operator [] (FuncNode index) {
-        return Variable(allocatorId, offset + index);
+    Variable *tmp = NULL;
+    Variable& operator [] (FuncNode index) {
+        if (tmp != NULL) delete tmp;
+        tmp = new Variable(allocatorId, offset + index);
+        return *tmp;
     }
 };
 
@@ -7137,7 +7140,8 @@ class Array {
         for (int i = 0; i < size; i++) (*this)[i] = value[i];
     }
 
-    T operator[] (FuncNode i) {
+    T *tmp = NULL;
+    T& operator[] (FuncNode i) {
         int backupDefaultAllocatorId = defaultAllocatorId;
         defaultAllocatorId = currentDefaultAllocatorId;
         map<int, FuncNode> offsets;
@@ -7149,14 +7153,15 @@ class Array {
         auto backupSonolusMemoryDelta = SonolusMemoryDelta;
         SonolusMemoryIndex = offsets;
         SonolusMemoryDelta.clear();
-        T res;
+        if (tmp != NULL) delete tmp;
+        tmp = new T();
         SonolusMemoryIndex = backupSonolusMemoryIndex;
         SonolusMemoryDelta = backupSonolusMemoryDelta;
         defaultAllocatorId = backupDefaultAllocatorId;
-        return res;
+        return *tmp;
     }
-    T operator[] (FuncNode i) const {
-        return (*this)[i];
+    T& operator[] (FuncNode i) const {
+        return (*const_cast<Array<T, size>* >(this))[i];
     }
     Array<T, size>& operator = (const Array<T, size>& value) {
         for (int i = 0; i < size; i++) (*this)[i] = value[i];
@@ -7183,6 +7188,7 @@ class Collection {
 
     Constructor Collection(){}
 
+    [[deprecated("Use Collection::operator[](FuncNode) instead.")]]
     Blocked T get(FuncNode i) {
         return array[i];
     }
@@ -7203,7 +7209,7 @@ class Collection {
         count = 0;
     }
 
-    T operator[] (FuncNode i) {
+    T& operator[] (FuncNode i) {
         return array[i];
     }
 };
@@ -7254,7 +7260,7 @@ class Dictionary {
         count = 0;
     }
 
-    T2 operator [] (const T1 &key) {
+    T2& operator [] (const T1 &key) {
         Variable id = indexOf(key);
         return getValue(id);
     }
@@ -7490,7 +7496,7 @@ class Vector {
         x++; y++;
         return *this;
     }
-    Vector& operator ++ (int) {
+    Vector operator ++ (int) {
         auto res = (*this);
         ++(*this);
         return res;
@@ -7499,7 +7505,7 @@ class Vector {
         x--; y--;
         return *this;
     }
-    Vector& operator -- (int) {
+    Vector operator -- (int) {
         auto res = (*this);
         --(*this);
         return res;
@@ -7651,7 +7657,7 @@ class Range {
         min++; max++;
         return *this;
     }
-    Range& operator ++ (int) {
+    Range operator ++ (int) {
         auto res = (*this);
         ++(*this);
         return res;
@@ -7660,7 +7666,7 @@ class Range {
         min--; max--;
         return *this;
     }
-    Range& operator -- (int) {
+    Range operator -- (int) {
         auto res = (*this);
         --(*this);
         return res;

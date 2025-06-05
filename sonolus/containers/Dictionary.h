@@ -39,7 +39,7 @@ class Dictionary {
         count = 0;
     }
 
-    T2 operator [] (const T1 &key) {
+    T2& operator [] (const T1 &key) {
         Variable id = indexOf(key);
         return getValue(id);
     }

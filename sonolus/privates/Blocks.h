@@ -23,8 +23,11 @@ class VariablesArray {
     Constructor VariablesArray(){}
     Constructor VariablesArray(FuncNode offset, FuncNode siz): offset(offset), siz(siz){}
 
-    Variable operator [] (FuncNode index) {
-        return Variable(allocatorId, offset + index);
+    Variable *tmp = NULL;
+    Variable& operator [] (FuncNode index) {
+        if (tmp != NULL) delete tmp;
+        tmp = new Variable(allocatorId, offset + index);
+        return *tmp;
     }
 };
 
