@@ -31,7 +31,7 @@ class Collection {
         count = 0;
     }
 
-    T& operator[] (FuncNode i) {
+    T operator[] (FuncNode i) {
         return array[i];
     }
 };
