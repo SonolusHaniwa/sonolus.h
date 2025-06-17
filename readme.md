@@ -8,6 +8,8 @@ C++ based Developer Toolkit for Sonolus.
 - [Sonolus Wiki](https://wiki.sonolus.com)
 - [Sonolus.js Guide](https://wiki.sonolus.com/sonolus.js-guide)
 
+Documents were avaliable in <https://docs.littleyang.com.cn/sonolus.h-en/>
+
 ## Usage
 
 Use the following command to compile compiler:
