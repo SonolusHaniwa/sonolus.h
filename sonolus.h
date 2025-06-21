@@ -6779,7 +6779,7 @@ Variable SelectOption(
     res["standard"] = standard;
     res["advanced"] = advanced;
     res["scope"] = scope;
-    res["type"] = "toggle";
+    res["type"] = "select";
     res["def"] = def;
     res["values"].size();
     for (int i = 0; i < values.size(); i++) res["values"].append(values[i]);
@@ -7209,7 +7209,7 @@ class Collection {
         count = 0;
     }
 
-    T& operator[] (FuncNode i) {
+    T operator[] (FuncNode i) {
         return array[i];
     }
 };
@@ -7260,7 +7260,7 @@ class Dictionary {
         count = 0;
     }
 
-    T2& operator [] (const T1 &key) {
+    T2 operator [] (const T1 &key) {
         Variable id = indexOf(key);
         return getValue(id);
     }
